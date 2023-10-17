@@ -1,7 +1,7 @@
 from baralho import Baralho
 
 class Mao():
-    def __init__(self, baralho, quantidade):
+    def __init__(self):
        self.cartas = []
     
     def _set_cartas(self, cartas):

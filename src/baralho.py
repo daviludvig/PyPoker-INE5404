@@ -8,9 +8,9 @@ class Baralho():
         naipes = ["Paus", "Copas", "Espadas", "Ouro"]
         valores = ["Ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Valete", "Dama", "Rei"]
 
-        self.criar_baralho(naipes, valores)
+        self._set_baralho(naipes, valores)
 
-    def criar_baralho(self, naipes, valores):
+    def _set_baralho(self, naipes, valores):
         # Método que cria um baralho com 52 cartas
         self.baralho = []
 
@@ -22,7 +22,10 @@ class Baralho():
                 else:
                     cor = "Preto"
                 self.baralho.append(Carta(naipe, valor, cor))
-        
+    
+    def get_baralho(self):
+        # Método que retorna o baralho
+        return self.baralho
     
     def embaralhar(self):
         # Método que embaralha o baralho

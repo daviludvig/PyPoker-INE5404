@@ -2,9 +2,11 @@ from jogador import Jogador
 from dealer import Dealer
 from baralho import Baralho
 
-d1 = Dealer()
-
+d1 = Dealer("Dealer")
+baralho = Baralho()
 j1 = Jogador("Jogador 1")
 
-for i in j1.cartas:
+d1.distribuir_primeiras_cartas(j1.mao, baralho)
+
+for i in j1.mao.cartas:
     print(i)
