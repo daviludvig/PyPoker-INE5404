@@ -1,4 +1,4 @@
-from Baralho.baralho import Baralho
+from Deck.baralho import Baralho
 
 class Rodada():
     def __init__(self, baralho, quantidade):
@@ -11,4 +11,5 @@ class Rodada():
     def getCartasRodada(self):
         # Método que retorna as cartas da mão do jogador nesta rodada
         return self.cartasRodada
+
         
