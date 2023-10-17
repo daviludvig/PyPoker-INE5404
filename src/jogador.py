@@ -4,4 +4,4 @@ from pessoa import Pessoa
 class Jogador(Pessoa):
     def __init__(self, nome):
         super().__init__(nome)
-        self.mao = Mao()
+        self.rodada = Mao()
