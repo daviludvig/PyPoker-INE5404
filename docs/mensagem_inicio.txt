@@ -1,0 +1,12 @@
+
+Seja bem-vindo à implementação de 
+PyPoker feita por Davi Ludvig!
+
+Esse sistema foi construído de acordo com
+as exigências da quarta atividade avaliativa
+da matéria de POO2.
+Todas as informações relevantes podem ser
+encontradas na parte de documentação do 
+aplicativo.
+
+Divirta-se!

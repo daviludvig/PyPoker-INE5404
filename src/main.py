@@ -1,5 +1,11 @@
-from Player.jogador import Jogador
+from jogador import Jogador
+from baralho import Baralho
 
-j1 = Jogador("Jogador 1")
+baralho = Baralho()
+
+j1 = Jogador("Jogador 1", baralho, 5)
 
 print(j1.cartas)
+
+for i in j1.cartas:
+    print(i)

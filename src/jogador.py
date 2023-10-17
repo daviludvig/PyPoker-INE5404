@@ -6,4 +6,4 @@ class Jogador():
 
         rodadaAtual = Rodada(baralho, quantidade)
 
-        self.cartas = rodadaAtual.getCartasRodada()
+        self.cartas = rodadaAtual.get_cartas_rodada()

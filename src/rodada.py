@@ -1,15 +1,13 @@
-import sys
-from Deck.baralho import Baralho
-sys.path(0, "../Deck")
+from baralho import Baralho
 
 class Rodada():
     def __init__(self, baralho, quantidade):
-       self.setCartasRodada(baralho, quantidade) 
+       self.set_cartas_rodada(baralho, quantidade) 
 
-    def setCartasRodada(self, baralho, quantidade):
+    def set_cartas_rodada(self, baralho, quantidade):
         # Método que distribui cartas para os jogadores
-        self.cartasRodada = baralho.distribuir_cartas(quantidade)
+        self.rodada = baralho.distribuir_cartas(quantidade)
 
-    def getCartasRodada(self):
+    def get_cartas_rodada(self):
         # Método que retorna as cartas da mão do jogador nesta rodada
-        return self.cartasRodada
+        return self.rodada

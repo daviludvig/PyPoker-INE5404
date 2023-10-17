@@ -1,5 +1,5 @@
 from carta import Carta
-from random import shuffle as shuffle_cards
+from random import shuffle as shuffle_cards, choice as choice_card
 
 
 class Baralho(): 
@@ -26,5 +26,6 @@ class Baralho():
         # Método que distribui cartas para os jogadores
         cartas_jogadores = []
         for i in range(quantidade):
-            cartas_jogadores.append(self.baralho.pop())
+            cartas_jogadores.append(choice_card(self.baralho))
+            self.baralho.remove(cartas_jogadores[i])
         return cartas_jogadores 
