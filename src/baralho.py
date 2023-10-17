@@ -16,7 +16,7 @@ class Baralho():
 
         for naipe in naipes:
             for valor in valores:
-                
+
                 if naipe == "Ouro" or naipe == "Copas":
                     cor = "Vermelho"
                 else:
@@ -28,10 +28,10 @@ class Baralho():
         # Método que embaralha o baralho
         shuffle_cards(self.baralho)
 
-    def distribuir_cartas(self, quantidade):
+    def distribuir_primeiras_cartas(self):
         # Método que distribui cartas para os jogadores
         cartas_jogadores = []
-        for i in range(quantidade):
+        for i in range(2):
             cartas_jogadores.append(choice_card(self.baralho))
             self.baralho.remove(cartas_jogadores[i])
         return cartas_jogadores 

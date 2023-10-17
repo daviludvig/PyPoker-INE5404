@@ -6,7 +6,7 @@ class Rodada():
 
     def set_cartas_rodada(self, baralho, quantidade):
         # Método que distribui cartas para os jogadores
-        self.rodada = baralho.distribuir_cartas(quantidade)
+        self.rodada = baralho.distribuir_primeiras_cartas()
 
     def get_cartas_rodada(self):
         # Método que retorna as cartas da mão do jogador nesta rodada
