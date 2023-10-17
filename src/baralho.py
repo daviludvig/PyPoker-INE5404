@@ -28,10 +28,11 @@ class Baralho():
         # Método que embaralha o baralho
         shuffle_cards(self.baralho)
 
-    def distribuir_primeiras_cartas(self):
-        # Método que distribui cartas para os jogadores
-        cartas_jogadores = []
-        for i in range(2):
-            cartas_jogadores.append(choice_card(self.baralho))
-            self.baralho.remove(cartas_jogadores[i])
-        return cartas_jogadores 
+    # Método aplicado em dealer.py
+    # def distribuir_primeiras_cartas(self):
+    #     # Método que distribui cartas para os jogadores
+    #     cartas_jogadores = []
+    #     for i in range(2):
+    #         cartas_jogadores.append(choice_card(self.baralho))
+    #         self.baralho.remove(cartas_jogadores[i])
+    #     return cartas_jogadores 

@@ -1,7 +1,8 @@
 from jogador import Jogador
+from dealer import Dealer
 from baralho import Baralho
 
-baralho = Baralho()
+d1 = Dealer()
 
 j1 = Jogador("Jogador 1", baralho, 5)
 

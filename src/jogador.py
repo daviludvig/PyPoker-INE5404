@@ -1,9 +1,10 @@
 from rodada import Rodada
+from pessoa import Pessoa
 
-class Jogador():
-    def __init__(self, nome, baralho, quantidade_cartas):
-        self.nome = nome
+class Jogador(Pessoa):
+    def __init__(self, nome):
+        super().__init__(nome)
 
-        rodadaAtual = Rodada(baralho, quantidade_cartas)
-
-        self.cartas = rodadaAtual.get_cartas_rodada()
+    def _set_cartas(self, cartas):
+        # Método que seta as cartas do jogador
+        self.cartas = cartas
