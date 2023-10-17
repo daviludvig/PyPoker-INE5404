@@ -16,7 +16,13 @@ class Baralho():
 
         for naipe in naipes:
             for valor in valores:
-                self.baralho.append(Carta(naipe, valor))
+                
+                if naipe == "Ouro" or naipe == "Copas":
+                    cor = "Vermelho"
+                else:
+                    cor = "Preto"
+                self.baralho.append(Carta(naipe, valor, cor))
+        
     
     def embaralhar(self):
         # Método que embaralha o baralho

@@ -6,3 +6,5 @@ __pycache__
     rm -rf .eggs
     rm -rf .cache
     rm -rf .eggs
+
+primeiras_perguntas.txt

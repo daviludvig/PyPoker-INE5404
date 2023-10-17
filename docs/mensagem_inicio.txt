@@ -2,6 +2,9 @@
 Seja bem-vindo à implementação de 
 PyPoker feita por Davi Ludvig!
 
+As regras de jogo foram baseadas
+no Texas Hold'em.
+
 Esse sistema foi construído de acordo com
 as exigências da quarta atividade avaliativa
 da matéria de POO2.
