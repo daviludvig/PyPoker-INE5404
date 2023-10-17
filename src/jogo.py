@@ -21,21 +21,15 @@ class Jogo():
     
 
     def selecao_inicial(self):
-        # Método que imprime a mensagem de seleção inicial e pede as primeiras entradas do usuário
+        # Método que imprime a mensagem de seleção inicial e pede entradas do usuário
         print(f"\n{'=+'*20}")
 
-        print(f"\nAntes de comecar a jogar, o usuário\ndeve definir o número de jogadores e\num número de cartas condizente.\n")
+        print(f"\nAntes de comecar a jogar, o usuário\ndeve definir o número de jogadores.\n")
         self.quantidade_jogadores = int(input(">> Digite o número de jogadores (2 - 10): "))
 
         while (self.quantidade_jogadores < 2) or (self.quantidade_jogadores > 10):
             print("\nNúmero de jogadores inválido. Tente novamente.")
             self.quantidade_jogadores = int(input(">> Digite o número de jogadores (2 - 10): "))
 
-        maximo_cartas = floor(52/self.quantidade_jogadores)
-        self.quantidade_cartas = int(input(f">> Digite o número de cartas por jogador (1 - {maximo_cartas}): "))
-
-        while (self.quantidade_cartas < 1) or (self.quantidade_cartas > maximo_cartas):
-            print("\nNúmero de cartas inválido. Tente novamente.")
-            self.quantidade_cartas = int(input(f">> Digite o número de cartas por jogador (1 - {maximo_cartas}): "))
 
 j1 = Jogo()

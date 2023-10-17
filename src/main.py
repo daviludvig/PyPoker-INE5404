@@ -4,7 +4,7 @@ from baralho import Baralho
 
 d1 = Dealer()
 
-j1 = Jogador("Jogador 1", baralho, 5)
+j1 = Jogador("Jogador 1")
 
 for i in j1.cartas:
     print(i)
