@@ -13,3 +13,6 @@ class Ficha:
     def __str__(self):
         return f"Ficha {self.cor}"
         
+    def gerar_ficha(self):
+        # Método que gera uma fichas
+        return Ficha()

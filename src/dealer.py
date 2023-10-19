@@ -18,7 +18,9 @@ class Dealer(Pessoa):
             baralho.get_baralho().remove(carta)
             mesa._set_comunitaria(carta)
     
-    def distribuir_fichas(self, maleta, alvo, valor):
-        # Método que distribui fichas para o jogador
-        alvo.fichas.append(valor)
-        maleta.fichas -= valor
+    def distribuir_ficha(self, maleta, alvo):
+        # Método que distribui uma ficha para um jogador
+        ficha = maleta.get_fichas()[0]
+        maleta.get_fichas().remove(ficha)
+        alvo._set_ficha(ficha)
+        

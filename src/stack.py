@@ -6,5 +6,4 @@ class Pilha:
         # Método que seta uma ficha para o jogador
         self.fichas.append(ficha)
     
-    def __str__(self):
-        
+    
