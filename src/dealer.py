@@ -1,5 +1,4 @@
 from pessoa import Pessoa
-from random import choice as choice_card
 
 class Dealer(Pessoa):
     def __init__(self, nome):

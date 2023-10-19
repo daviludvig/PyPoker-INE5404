@@ -1,5 +1,5 @@
 from carta import Carta
-from random import shuffle as shuffle_cards, choice as choice_card
+from random import shuffle as shuffle_cards
 
 
 class Baralho(): 

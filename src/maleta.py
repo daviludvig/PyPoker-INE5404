@@ -3,15 +3,11 @@ from ficha import Ficha
 class Maleta:
     def __init__(self):
         self.fichas = []
-        self.preencher(10)
+        self.preencher()
 
-    # def gerar_ficha(self):
-    #     # Método que gera as fichas
-    #     return Ficha()
-
-    def preencher(self, jogadores):
+    def preencher(self):
         # Método que preenche a maleta com as fichas
-        for i in range(jogadores*10):
+        for i in range(400):
             self.fichas.append(Ficha().gerar_ficha())
 
     def get_fichas(self):
