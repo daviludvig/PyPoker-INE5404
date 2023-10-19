@@ -18,4 +18,5 @@ class Dealer(Pessoa):
             baralho.get_baralho().remove(carta)
             mesa._set_comunitaria(carta)
     
-    
+    def distribuir_fichas(self, maleta, alvo, valor):
+        pass

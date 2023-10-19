@@ -4,15 +4,14 @@ class Maleta:
     def __init__(self):
         self.fichas = []
 
-    def gerar_ficha(self, valor):
+    def gerar_ficha(self):
         # Método que gera as fichas
-        return Ficha(valor)
+        return Ficha()
 
-    def preencher(self):
+    def preencher(self, jogadores):
         # Método que preenche a maleta com as fichas
-        for valor in [1, 5, 10, 25, 50, 100, 500]:
-            for i in range(10):
-                self.fichas.append(self.gerar_ficha(valor))
+        for i in range(jogadores*10):
+            self.fichas.append(self.gerar_ficha())
 
     def get_fichas(self):
         # Método que retorna as fichas da maleta
