@@ -1,6 +1,7 @@
 from random import choice, randint
 from time import sleep
 from math import floor
+from baralho import Baralho
 
 class Jogo():
     def __init__(self):
@@ -32,4 +33,9 @@ class Jogo():
             self.quantidade_jogadores = int(input(">> Digite o número de jogadores (2 - 10): "))
 
 
-j1 = Jogo()
+    def definir_dealer(self):
+        # Método que define o dealer de acordo com as regras do texas hold'em
+        baralho = Baralho()
+        baralho.embaralhar()
+
+        

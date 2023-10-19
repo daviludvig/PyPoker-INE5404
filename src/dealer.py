@@ -1,25 +1,21 @@
-from pessoa import Pessoa
-from baralho import Baralho
+from jogador import Jogador
 from random import choice as choice_card
 
-class Dealer(Pessoa):
+class Dealer(Jogador):
     def __init__(self, nome):
         super().__init__(nome)
 
     def distribuir_primeiras_cartas(self, alvo, baralho):
-        # Método que distribui as duas primeiras cartas para os jogadores
-        cartas_jogadores = []
-        for i in range(2):
-            cartas_jogadores.append(choice_card(baralho.get_baralho()))
-            baralho.get_baralho().remove(cartas_jogadores[i])
-        alvo._set_cartas(cartas_jogadores)
-    
+        # Método que distribui uma carta para o jogador
+        carta = baralho.get_baralho()[0]
+        baralho.get_baralho().remove(carta)
+        alvo._set_carta(carta)
+
     def distribuir_comunitarias(self, mesa, baralho):
         # Método que distribui as cartas comunitárias
-        cartas_comunitarias = []
         for i in range(5):
-            cartas_comunitarias.append(choice_card(baralho.get_baralho()))
-            baralho.get_baralho().remove(cartas_comunitarias[i])
-        mesa._set_comunitarias(cartas_comunitarias)
+            carta = baralho.get_baralho()[0]
+            baralho.get_baralho().remove(carta)
+            mesa._set_comunitaria(carta)
     
     

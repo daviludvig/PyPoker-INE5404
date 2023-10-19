@@ -8,5 +8,3 @@ j1 = Jogador("Jogador 1")
 
 d1.distribuir_primeiras_cartas(j1.rodada, baralho)
 
-for i in j1.rodada.cartas:
-    print(i)
