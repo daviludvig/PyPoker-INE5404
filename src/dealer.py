@@ -19,4 +19,6 @@ class Dealer(Pessoa):
             mesa._set_comunitaria(carta)
     
     def distribuir_fichas(self, maleta, alvo, valor):
-        pass
+        # Método que distribui fichas para o jogador
+        alvo.fichas.append(valor)
+        maleta.fichas -= valor

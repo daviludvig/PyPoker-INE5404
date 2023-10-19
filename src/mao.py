@@ -1,5 +1,3 @@
-from baralho import Baralho
-
 class Mao():
     def __init__(self):
        self.cartas = []
@@ -8,14 +6,9 @@ class Mao():
         # Método que seta as cartas do jogador
         self.cartas.append(carta)
 
-
     def get_cartas(self):
         # Método que retorna as cartas do jogador
         return self.cartas
-    
-    def __str__(self):
-        # Método que retorna as cartas do jogador
-        return str(self.cartas)
     
     def _reset_mao(self):
         # Método que reseta a mão do jogador

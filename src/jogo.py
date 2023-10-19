@@ -49,9 +49,11 @@ class Jogo():
 
     def set_maleta(self):
         # Método que define as fichas
-        self.fichas = Maleta().preencher(self.quantidade_jogadores)
+        self.maleta = Maleta().preencher(self.quantidade_jogadores)
         
-    def set_fichas(self, dealer, jogadores):
+    def set_fichas_jogadores(self, dealer, jogadores):
         # Método que distribui 10 fichas para cada jogador
         for jogador in jogadores:
-            continue
+            dealer.
+
+    
