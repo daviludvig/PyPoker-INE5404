@@ -1,7 +1,7 @@
 from random import choice, randint
 from time import sleep
-from math import floor
-from baralho import Baralho
+from dealer import Dealer
+from maleta import Maleta
 
 class Jogo():
     def __init__(self):
@@ -34,8 +34,17 @@ class Jogo():
 
 
     def definir_dealer(self):
-        # Método que define o dealer de acordo com as regras do texas hold'em
-        baralho = Baralho()
-        baralho.embaralhar()
+        # Método que define o dealer fixo
+        self.dealer = Dealer("Dealer")
 
+    def set_aposta_jogador(self):
+        # Método que define o valor apostado
+        self.aposta_jogador = int(input(">> Digite o valor da sua aposta: "))
+        while self.aposta_jogador < 200 or self.aposta_jogador > 2000:
+            print("Valor de aposta inválido. Tente novamente (200 < n < 2000).")
+            self.aposta_jogador = int(input(">> Digite o valor da aposta: "))
+        
+    def set_fichas(self):
+        # Método que define as fichas
+        self.fichas = Maleta().gerar_fichas()
         

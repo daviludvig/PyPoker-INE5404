@@ -9,3 +9,5 @@ class Jogador(Pessoa):
     def limpa_mao(self):
         # Método que limpa a mão do jogador
         self.rodada._reset_mao()
+
+    

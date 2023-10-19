@@ -1,7 +1,7 @@
-from jogador import Jogador
+from pessoa import Pessoa
 from random import choice as choice_card
 
-class Dealer(Jogador):
+class Dealer(Pessoa):
     def __init__(self, nome):
         super().__init__(nome)
 
