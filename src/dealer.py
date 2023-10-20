@@ -10,9 +10,9 @@ class Dealer(Pessoa):
         baralho.get_baralho().remove(carta)
         alvo._set_carta(carta)
 
-    def distribuir_comunitarias(self, mesa, baralho):
+    def distribuir_flop(self, mesa, baralho):
         # Método que distribui as cartas comunitárias
-        for i in range(5):
+        for i in range(3):
             carta = baralho.get_baralho()[0]
             baralho.get_baralho().remove(carta)
             mesa._set_comunitaria(carta)

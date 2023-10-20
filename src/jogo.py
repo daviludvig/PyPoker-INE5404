@@ -2,9 +2,10 @@ from random import choice, randint, shuffle
 import sys
 from time import sleep
 from jogador import Jogador
+from visual import Visual
 
 class Jogo():
-    def __init__(self, dealer, maleta, pote):
+    def __init__(self, dealer, maleta, pote, baralho):
         self.apostas = []
         self.jogadores = []
         self.desistencias = []
@@ -16,7 +17,9 @@ class Jogo():
         self.set_apostas_bots()
         self.set_fichas_jogadores(dealer, maleta)
         self.organizar_lugares()
-        self.primeira_rodada(pote)
+        self.visual(dealer)
+        self.primeira_rodada(dealer, pote, baralho)
+        
 
     def iniciar(self):
         # Método que imprime a mensagem de início do jogo
@@ -42,7 +45,7 @@ class Jogo():
 
     def gerar_jogador(self):
         # Método que gera o jogador
-        self.nome_do_jogador = input(">> Digite o seu nome: ")
+        self.nome_do_jogador = input(">> Digite o seu nome: ").capitalize()
         self.jogador = Jogador(self.nome_do_jogador)
         self.jogadores.append(self.jogador)
     
@@ -69,21 +72,39 @@ class Jogo():
     
     def set_fichas_jogadores(self, dealer, maleta):
         # Método que distribui 10 fichas para cada jogador
-        for i in range((len(self.jogadores)-1)):
+        for i in range((len(self.jogadores))):
             fichas = self.apostas[i] // 50
             for j in range(fichas):
                 dealer.distribuir_ficha(maleta, self.jogadores[i].pilha)
 
-    def set_cartas_inicias(self, dealer):
+    def set_cartas_inicias(self, dealer, baralho):
         # Método que distribui as cartas iniciais para cada jogador
         for i in range(len(self.jogadores)):
             for j in range(2):
-                dealer.distribuir_carta(self.jogadores[i].mao)
+                dealer.distribuir_primeiras_cartas(self.jogadores[i].rodada, baralho)
+
+    def set_cartas_mesa(self, dealer, mesa, baralho):
+        # Método que distribui as cartas da mesa
+        dealer.distribuir_flop(mesa, baralho)
 
     def organizar_lugares(self):
         # Método que organiza os lugares dos jogadores
             shuffle(self.jogadores)
     
+    def visual(self, dealer):
+        # Método que imprime a disposição dos jogadores
+        participantes = self.jogadores.copy()
+        participantes.append(dealer)
+
+        visual = Visual(participantes, self.nome_do_jogador)
+
+    def check(self, decisao, apostaram):
+        # Método que realiza as apostas de uma rodada
+        for jogador in self.jogadores:
+            if jogador not in apostaram and decisao:
+                jogador.cobrir()
+                apostaram.append(jogador)
+
     def desistir(self, jogador):
         # Método que remove um jogador da partida
         self.desistencias.append(jogador)
@@ -91,27 +112,26 @@ class Jogo():
     def tela_de_decisao(self):
         pass
 
-    def tela_de_relatorio_fichas(self):
+    def tela_de_relatorio(self):
         # Método que imprime o relatório da rodada
 
         for i in range(len(self.jogadores)-1):
             maior_length = max(len(self.jogadores[i].nome), len(self.jogadores[i+1].nome))
 
-        print(maior_length, type(maior_length))
-        print(f"\n{'=+'*10}RELATÓRIO DE FICHAS{'=+'*10}\n")
-        print(f"{(maior_length+2)*' '}APOSTADAS  RESTANTES")
+        print(f"\n{'=+'*10}RELATÓRIO{'=+'*10}\n")
+        print(f"FICHAS{(7-maior_length)*' '}APOSTADAS  RESTANTES")
         for jogador in self.jogadores:
-            print(f"{jogador}{(len(jogador.nome)-maior_length+1)*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
+            print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
+        for jogador in self.jogadores:
+            if jogador.nome == self.nome_do_jogador:
+                print(f"\nSUAS CARTAS:")
+                for carta in jogador.rodada.get_cartas():
+                    print(f"{carta}")
 
-        # for jogador in self.jogadores:
-        #     if not jogador.nome == self.nome_do_jogador:
-        #         if jogador.nome in self.desistencias:
-        #             print(f"{jogador.nome}: FORA.")
-        #         else:
-        #             print(f"{jogador.nome}: {jogador.pilha._get_numero_fichas_apostadas()} fichas apostadas ({jogador.pilha._get_numero_fichas()} restantes).")
-
-    def primeira_rodada(self, pote):
+    def primeira_rodada(self, dealer, pote, baralho):
         # Método que realiza a primeira rodada de apostas
+
+        apostaram = []
 
         aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
         print(f"\n{'=+'*10}PRIMEIRA RODADA{'=+'*10}\n")
@@ -120,16 +140,20 @@ class Jogo():
             if self.jogadores[i].nome == self.nome_do_jogador:
                 if i < 2:
                     flag = True
-                    print(f"-> Nesta rodada você apostou.")
-                    break
-                else:
-                    jogador_index = i
-                    break
+                    print(f"-> Nesta rodada a sua posição fez você apostar {i+1} ficha(s).")
+                jogador_index = i
+                break
 
-        if not flag:
-            self.jogadores[0].small_blind(pote)
-            self.jogadores[1].big_blind(pote)
-            self.tela_de_relatorio_fichas()
+        self.jogadores[0].small_blind(pote)
+        self.jogadores[1].big_blind(pote)
+        apostaram.append(self.jogadores[0])
+        apostaram.append(self.jogadores[1])
 
+        self.set_cartas_inicias(dealer, baralho)
+
+        if flag:
+            self.tela_de_relatorio()
+        else:
+            self.tela_de_relatorio()
         
 
