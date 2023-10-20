@@ -78,5 +78,39 @@ class Possibilidades():
             if valores[i] == valores[i+1] - 1 and valores[i+1] == valores[i+2] - 1 and valores[i+2] == valores[i+3] - 1 and valores[i+3] == valores[i+4] - 1:
                 return True
 
-
+    def trinca(self):
+        # Método que verifica se o jogador tem uma trinca
+        valores = []
+        for carta in self.cartas:
+            valores.append(carta.get_valor())
+        for valor in valores:
+            if valores.count(valor) >= 3:
+                return True
+            
+    def dois_pares(self):
+        # Metodo que verifica se o jogador tem dois pares
+        valores = []
+        for carta in self.cartas:
+            valores.append(carta.get_valor())
+        for valor in valores:
+            if valores.count(valor) >= 2:
+                for valor2 in valores:
+                    if valores.count(valor2) >= 2 and valor != valor2:
+                        return True
     
+    def um_par(self):
+        # Método que verifica se o jogador tem um par
+        valores = []
+        for carta in self.cartas:
+            valores.append(carta.get_valor())
+        for valor in valores:
+            if valores.count(valor) >= 2:
+                return True
+    
+    def maior_carta(self):
+        # Método que retorna a maior carta do jogador
+        valores = []
+        for carta in self.cartas:
+            valores.append(carta.get_valor())
+        valores.sort()
+        return valores[-1]

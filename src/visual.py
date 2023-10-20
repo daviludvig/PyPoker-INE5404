@@ -22,7 +22,7 @@ class Visual:
     def exibir(self, jogador):
         largura = 300
         altura = 300
-        imagem = Image.new("RGB", (largura, altura), (0, 102, 0))
+        imagem = Image.new("RGB", (largura, altura), (255, 255, 255))
         desenho = ImageDraw.Draw(imagem)
 
         elementos = self.participantes
