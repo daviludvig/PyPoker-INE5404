@@ -7,7 +7,7 @@ class Carta():
     def __str__(self):
         return f"{self.valor} de {self.naipe} ({self.cor})"
     
-    def get_carta_valor(self):
+    def get_valor(self):
         # Método que retorna o valor da carta
         if self.valor == "Ás":
             return 1
@@ -19,3 +19,15 @@ class Carta():
             return 13
         else:
             return int(self.valor)
+        
+    def get_naipe(self):
+        # Método que retorna o naipe da carta
+        return self.naipe
+
+    def get_cor(self):
+        # Método que retorna a cor da carta
+        return self.cor
+    
+    def get_peso(self):
+        # Método que retorna a carta
+        return self.valor

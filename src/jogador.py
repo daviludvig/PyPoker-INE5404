@@ -33,7 +33,7 @@ class Jogador(Pessoa):
 
         pote.add_fichas(self.pilha.fichas_apostadas)    
 
-    def decidir_jogada(self):
+    def decidir_jogada(self, mesa):
         # Método que decide a jogada do jogador
         pass
 

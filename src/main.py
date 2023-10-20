@@ -10,3 +10,4 @@ m1 = Maleta()
 p1 = Pote()
 
 jogo = Jogo(d1, m1, p1, baralho)
+

@@ -6,68 +6,43 @@ class Visual:
         self.participantes = participantes
         self.exibir(jogador)
     
-    def auxiliar(self, raio, elementos):
+    def auxiliar(self, raio, elementos, deslocamento=0, centro = (150, 150)):
         posicoes = []
+        angulo_inicial = math.radians(-90 + deslocamento)  # Inclinação de -90 graus com deslocamento
+        angulo_total = math.radians(360)
+        angulo_por_elemento = angulo_total / elementos
+    
         for i in range(elementos):
-            angulo = (2 * math.pi / elementos) * i
-            x = int(raio * math.cos(angulo) + raio)
-            y = int(raio * math.sin(angulo) + raio)
+            angulo = angulo_inicial + i * angulo_por_elemento
+            x = int(raio * math.cos(angulo) + centro[0])
+            y = int(raio * math.sin(angulo) + centro[1])
             posicoes.append((x, y))
         return posicoes
     
     def exibir(self, jogador):
         largura = 300
         altura = 300
-        imagem = Image.new("RGB", (largura, altura), (255, 255, 255))
+        imagem = Image.new("RGB", (largura, altura), (0, 102, 0))
         desenho = ImageDraw.Draw(imagem)
 
         elementos = self.participantes
         raio = 100
-        posicoes = self.auxiliar(raio, len(elementos))
+        deslocamento = 360//len(elementos)
+        centro = (130, 140)
+        posicoes = self.auxiliar(raio, len(elementos), deslocamento, centro)
 
+        cadeira = Image.open("/Users/daviludvig/Documents/UFSC/23.2/Python/10-17/Poker/docs/cadeira.png")
+        fundo = Image.open("/Users/daviludvig/Documents/UFSC/23.2/Python/10-17/Poker/docs/mesa.jpg")
+        imagem.paste(fundo, (35,35))
         for i in range(len(elementos)):
             x, y = posicoes[i]
+            # imagem.paste(cadeira, (x - cadeira.width // 2, y - cadeira.height // 2), cadeira)
             elemento = elementos[i].nome
             if elemento == "Dealer":
                 desenho.text((x, y), elemento, fill=(255, 0, 0))
             elif elemento == jogador:
-                desenho.text((x, y), elemento, fill=(100, 255, 0))
+                desenho.text((x, y), elemento, fill=(0, 0, 255))
             else:
                 desenho.text((x, y), elemento, fill=(0, 0, 0))
 
         imagem.show()
-
-
-# import math
-# import tkinter as tk
-
-# class Visual:
-#     def __init__(self, participantes):
-#         self.participantes = participantes
-#         self.exibir()
-
-#     def auxiliar(self, raio, elementos):
-#         posicoes = []
-#         for i in range(elementos):
-#             angulo = (2 * math.pi / elementos) * i
-#             x = raio * math.cos(angulo) + 100  # Ajuste 100 para o centro da janela
-#             y = raio * math.sin(angulo) + 100
-#             posicoes.append((x, y))
-#         return posicoes
-
-#     def exibir(self):
-#         elementos = self.participantes
-#         janela = tk.Tk()
-#         janela.title("Disposição dos participantes")
-
-#         raio = 50
-#         numero = len(elementos)
-#         posicoes = self.auxiliar(raio, numero)
-#         for i in range(len(elementos)):
-#             elemento = elementos[i]
-#             x, y = posicoes[i]
-#             label = tk.Label(janela, text=elemento)
-#             label.place(x=x, y=y)
-
-#         janela.geometry("300x200")
-#         janela.mainloop()
