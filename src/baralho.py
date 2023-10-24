@@ -33,3 +33,7 @@ class Baralho():
     def atualiza_baralho(self, novo_baralho):
         # Método que atualiza o baralho
         self.baralho = novo_baralho
+
+    def queima_carta(self):
+        # Método que queima uma carta
+        self.baralho.pop(0)

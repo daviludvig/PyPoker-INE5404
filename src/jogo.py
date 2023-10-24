@@ -9,6 +9,7 @@ class Jogo():
     def __init__(self, dealer, maleta, pote, baralho, mesa):
         self.apostas = []
         self.jogadores = []
+        self.apostaram = []
         self.desistencias = []
 
         self.iniciar()
@@ -24,7 +25,6 @@ class Jogo():
         self.set_cartas_mesa(dealer, mesa, baralho)
         self.mostrar_flop(mesa)
         self.set_pontuacao_jogadores(mesa)
-        self.decisao_rodada()
         self.tela_de_relatorio()
         
 
@@ -182,9 +182,6 @@ class Jogo():
 
     def primeira_rodada(self, dealer, pote, baralho, mesa):
         # Método que realiza a primeira rodada de apostas
-
-        apostaram = []
-
         aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
         print(f"\n{'=+'*10}PRIMEIRA RODADA{'=+'*10}\n")
         flag = False
@@ -198,18 +195,11 @@ class Jogo():
 
         self.jogadores[0].small_blind(pote)
         self.jogadores[1].big_blind(pote)
-        apostaram.append(self.jogadores[0])
-        apostaram.append(self.jogadores[1])
+        self.apostaram.append(self.jogadores[0])
+        self.apostaram.append(self.jogadores[1])
 
-        # if not flag:
-        #     self.decisao_rodada()
+        self.decisao_rodada()
 
-        # self.set_cartas_inicias(dealer, baralho)
-
-        # if flag:
-        #     self.tela_de_relatorio()
-        # else:
-        #     self.tela_de_relatorio()
-
-        
+    def loop(self):
+       pass
 
