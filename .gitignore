@@ -8,3 +8,6 @@ __pycache__
     rm -rf .eggs
 
 primeiras_perguntas.txt
+
+*.asta
+*.asta.lock

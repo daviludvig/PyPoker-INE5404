@@ -1,8 +1,6 @@
-from pessoa import Pessoa
-
-class Dealer(Pessoa):
+class Dealer():
     def __init__(self, nome):
-        super().__init__(nome)
+        self.nome = nome
 
     def distribuir_primeiras_cartas(self, alvo, baralho):
         # Método que distribui uma carta para o jogador

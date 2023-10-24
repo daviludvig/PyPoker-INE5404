@@ -2,6 +2,7 @@ from random import choice, randint, shuffle
 import sys
 from time import sleep
 from jogador import Jogador
+from bot import Bot
 from visual import Visual
 
 class Jogo():
@@ -9,6 +10,7 @@ class Jogo():
         self.apostas = []
         self.jogadores = []
         self.desistencias = []
+
         self.iniciar()
         self.selecao_inicial()
         self.gerar_bots()
@@ -54,7 +56,7 @@ class Jogo():
     def gerar_bots(self):
         # Método que gera os bots
         for i in range(self.quantidade_jogadores - 1):
-            self.jogadores.append(Jogador(f"Bot {i+1}"))
+            self.jogadores.append(Bot(f"Bot {i+1}"))
 
     def set_aposta_jogador(self):
         # Método que define o valor apostado pelo jogador
@@ -107,15 +109,18 @@ class Jogo():
                 jogador.cobrir()
                 apostaram.append(jogador)
 
-    def desistir(self, jogador):
+    def set_desistencias(self, jogador):
         # Método que remove um jogador da partida
-        self.desistencias.append(jogador)
+        self.desistencias = []
+        if jogador.desistiu:
+            self.desistencias.append(jogador)
+            # print(f"\n{self.desistencias[0].nome} desistiu da partida.")
 
     def set_pontuacao_jogadores(self, mesa):
         # Método que define a pontuação de cada jogador
         for jogador in self.jogadores:
-            jogador.pontos.set_cartas(jogador, mesa)
-            jogador.pontos.set_pontuacao()
+            jogador.pontos.set_pontuacao(jogador, mesa)
+            print(jogador.pontos.score)
 
     def tela_de_decisao(self):
         pass
@@ -135,7 +140,10 @@ class Jogo():
         print(f"\n{'=+'*10}RELATÓRIO{'=+'*10}\n")
         print(f"FICHAS{(7-maior_length)*' '}APOSTADAS  RESTANTES")
         for jogador in self.jogadores:
-            print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
+            if not jogador.desistiu:
+                print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
+            if jogador.desistiu:
+                print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}| FORA")
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
                 print(f"\nSUAS CARTAS:")

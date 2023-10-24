@@ -10,7 +10,7 @@ class Mesa():
         # Método que retorna as cartas comunitárias
         return self.flop
 
-    def set_lista_jogadores(self, jogadores):
+    def _set_lista_jogadores(self, jogadores):
         # Método que seta a lista de jogadores
         self.jogadores = jogadores
     

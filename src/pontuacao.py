@@ -9,8 +9,9 @@ class Pontuacao():
     def set_cartas(self, alvo, mesa):
         self.cartas = alvo.rodada.get_cartas() + mesa.get_flop()
 
-    def set_pontuacao(self):
+    def set_pontuacao(self, alvo, mesa):
         # Metodo que seta o score do jogador
+        self.set_cartas(alvo, mesa)
         self.royal_flush()
         self.straigth_flush()
         self.quadra()
