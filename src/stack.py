@@ -15,11 +15,9 @@ class Pilha:
         # Método que retorna o número de fichas apostadas pelo jogador
         return len(self.fichas_apostadas)
     
+    def apostar_ficha(self):
+        # Método que aposta uma ficha
+        ficha = self.fichas[0]
+        self.fichas.pop()
 
-    # Metodo em Jogador e Bot
-    # def apostar_ficha(self):
-    #     # Método que aposta uma ficha
-    #     ficha = self.fichas[0]
-    #     self.fichas.pop()
-
-    #     self.fichas_apostadas.append(ficha)
+        self.fichas_apostadas.append(ficha)

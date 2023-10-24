@@ -19,11 +19,13 @@ class Jogo():
         self.set_apostas_bots()
         self.set_fichas_jogadores(dealer, maleta)
         self.organizar_lugares()
-        self.visual(dealer)
+        # self.visual(dealer)
         self.primeira_rodada(dealer, pote, baralho, mesa)
         self.set_cartas_mesa(dealer, mesa, baralho)
         self.mostrar_flop(mesa)
         self.set_pontuacao_jogadores(mesa)
+        self.decisao_rodada()
+        self.tela_de_relatorio()
         
 
     def iniciar(self):
@@ -110,12 +112,13 @@ class Jogo():
                 jogador.cobrir()
                 apostaram.append(jogador)
 
-    def set_desistencias(self, jogador):
+    def set_desistencias(self):
         # Método que remove um jogador da partida
         self.desistencias = []
-        if jogador.desistiu:
-            self.desistencias.append(jogador)
-            # print(f"\n{self.desistencias[0].nome} desistiu da partida.")
+        for jogador in self.jogadores:
+            if jogador.desistiu:
+                self.desistencias.append(jogador)
+                # print(f"\n{self.desistencias[0].nome} desistiu da partida.")
 
     def set_pontuacao_jogadores(self, mesa):
         # Método que define a pontuação de cada jogador
@@ -125,23 +128,31 @@ class Jogo():
     def tela_de_decisao(self):
         pass
 
-    def rodada_apostas(self):
-        for jogador in 
+    def decisao_rodada(self):
+        aposta_vigente = 0
+        for jogador in self.jogadores:
+            if jogador.pilha._get_numero_fichas_apostadas() != 0:
+                aposta_vigente = jogador.pilha._get_numero_fichas_apostadas()
 
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
-                self.tela_de_relatorio()
-                decisao = input("\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: ")
-                while decisao not in ['c', 'a', 'd']:
+                # self.tela_de_relatorio()
+                while not jogador.realizou_jogada:
                     decisao = input("\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: ")
-                if decisao == 'c':
-                    jogador.cobrir()
-                elif decisao == 'a':
-                    jogador.aumentar()
-                elif decisao == 'd':
-                    jogador.desistir()
+                    while decisao not in ['c', 'a', 'd']:
+                        decisao = input("\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: ")
+                    if decisao == 'c':
+                        jogador.realizou_jogada = jogador.cobrir(aposta_vigente)
+                    elif decisao == 'a':
+                        jogador.realizou_jogada = jogador.aumentar(aposta_vigente)
+                    elif decisao == 'd':
+                        jogador.realizou_jogada = jogador.desistir()
+            if jogador.pilha._get_numero_fichas_apostadas() > aposta_vigente:
+                aposta_vigente = jogador.pilha._get_numero_fichas_apostadas()
             else:
-                jogador.decidir_jogada()
+                jogador.decidir_jogada(aposta_vigente)
+                jogador.realizou_jogada = True
+        self.set_desistencias()
 
     def mostrar_flop(self, mesa):
         # Método que imprime as cartas comunitárias
@@ -160,8 +171,9 @@ class Jogo():
         for jogador in self.jogadores:
             if not jogador.desistiu:
                 print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
+        for jogador in self.jogadores:
             if jogador.desistiu:
-                print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}| FORA")
+                print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{' '*8}FORA")
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
                 print(f"\nSUAS CARTAS:")
@@ -189,8 +201,8 @@ class Jogo():
         apostaram.append(self.jogadores[0])
         apostaram.append(self.jogadores[1])
 
-        if not flag:
-            self.rodada_apostas()
+        # if not flag:
+        #     self.decisao_rodada()
 
         # self.set_cartas_inicias(dealer, baralho)
 

@@ -9,6 +9,7 @@ class Jogador():
         self.pilha = Pilha()
         self.pontos = Pontuacao()
         self.desistiu = False
+        self.realizou_jogada = False
 
     def limpa_mao(self):
         # Método que limpa a mão do jogador
@@ -49,7 +50,7 @@ class Jogador():
             return False
         else:
             for i in range(aposta_vigente):
-                self.rodada.apostar_ficha()
+                self.pilha.apostar_ficha()
         return True
     
     def aumentar(self, aposta_vigente):
@@ -58,12 +59,13 @@ class Jogador():
             return False
         else:
             for i in range(aposta_vigente+1):
-                self.rodada.apostar_ficha()
+                self.pilha.apostar_ficha()
         return True
     
     def desistir(self):
         # Método que remove um jogador da partida
         self.desistiu = True
+        return True
         
 
     
