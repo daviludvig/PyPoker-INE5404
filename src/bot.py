@@ -11,10 +11,10 @@ class Bot(Jogador):
 
         aleatorio = randint(0,9)
         # 1 - Cobrir
-        if (aleatorio <= 6):
+        if (aleatorio >= 6):
             self.cobrir(aposta_vigente)
         # 2 - Aumentar
-        elif (5 <= aleatorio) and (aleatorio <= 3):
+        elif (5 >= aleatorio) and (aleatorio >= 3):
             self.aumentar(aposta_vigente)
         # 3 - Desistir
         else:
@@ -38,7 +38,8 @@ class Bot(Jogador):
             self.decidir_jogada(aposta_vigente)
         else:
             self.cobrir(aposta_vigente)
-            for i in range(randint(1, len(self.pilha.fichas) - aposta_vigente)):
+            diferenca = self.pilha._get_numero_fichas() - (aposta_vigente - self.pilha._get_numero_fichas_apostadas())
+            for i in range(randint(1, diferenca)):
                 self.pilha.apostar_ficha()
 
     def desistir(self):

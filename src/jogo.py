@@ -23,9 +23,8 @@ class Jogo():
         # self.visual(dealer)
         self.primeira_rodada(dealer, pote, baralho, mesa)
         self.set_cartas_mesa(dealer, mesa, baralho)
-        self.mostrar_flop(mesa)
         self.set_pontuacao_jogadores(mesa)
-        self.tela_de_relatorio()
+        self.tela_de_relatorio(mesa)
         
 
     def iniciar(self):
@@ -136,7 +135,7 @@ class Jogo():
 
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
-                # self.tela_de_relatorio()
+                self.mini_relatorio()
                 while not jogador.realizou_jogada:
                     decisao = input("\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: ")
                     while decisao not in ['c', 'a', 'd']:
@@ -147,11 +146,13 @@ class Jogo():
                         jogador.realizou_jogada = jogador.aumentar(aposta_vigente)
                     elif decisao == 'd':
                         jogador.realizou_jogada = jogador.desistir()
+            else:
+                if not jogador.realizou_jogada:
+                    jogador.decidir_jogada(aposta_vigente)
+                    jogador.realizou_jogada = True
+
             if jogador.pilha._get_numero_fichas_apostadas() > aposta_vigente:
                 aposta_vigente = jogador.pilha._get_numero_fichas_apostadas()
-            else:
-                jogador.decidir_jogada(aposta_vigente)
-                jogador.realizou_jogada = True
         self.set_desistencias()
 
     def mostrar_flop(self, mesa):
@@ -160,7 +161,26 @@ class Jogo():
         for carta in mesa.get_flop():
             print(f"{carta}")
 
-    def tela_de_relatorio(self):
+    def mini_relatorio(self):
+        print("JOGARAM ANTES DE VOCÊ:") 
+        for i in range(len(self.jogadores)-1):
+            if self.jogadores[i+1].nome == self.nome_do_jogador or self.jogadores[i].nome == self.nome_do_jogador:
+                continue
+            maior_length = max(len(self.jogadores[i].nome), len(self.jogadores[i+1].nome))
+
+        print(f"FICHAS{(7-maior_length)*' '}APOSTADAS  RESTANTES")
+        for jogador in self.jogadores:
+            if jogador.nome == self.nome_do_jogador:
+                break
+            else:
+                if not jogador.desistiu:
+                    print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
+            for jogador in self.jogadores:
+                if jogador.desistiu:
+                    print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{' '*8}FORA")
+
+
+    def tela_de_relatorio(self, mesa):
         # Método que imprime o relatório da rodada
 
         for i in range(len(self.jogadores)-1):
@@ -179,18 +199,19 @@ class Jogo():
                 print(f"\nSUAS CARTAS:")
                 for carta in jogador.rodada.get_cartas():
                     print(f"{carta}")
+        self.mostrar_flop(mesa)
+
 
     def primeira_rodada(self, dealer, pote, baralho, mesa):
         # Método que realiza a primeira rodada de apostas
         aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
-        print(f"\n{'=+'*10}PRIMEIRA RODADA{'=+'*10}\n")
+        print(f"\n{'=+'*10}SOBRE{'=+'*10}\n")
         flag = False
         for i in range(len(self.jogadores)):
             if self.jogadores[i].nome == self.nome_do_jogador:
                 if i < 2:
                     flag = True
                     print(f"-> Nesta rodada a sua posição fez você apostar {i+1} ficha(s).")
-                jogador_index = i
                 break
 
         self.jogadores[0].small_blind(pote)
@@ -199,7 +220,7 @@ class Jogo():
         self.apostaram.append(self.jogadores[1])
 
         self.decisao_rodada()
-
+        self.set_cartas_inicias(dealer, baralho)
     def loop(self):
        pass
 

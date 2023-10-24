@@ -4,6 +4,7 @@
 - Visual e jogo associacao
 - Composicao com as classes que formam atributos 
 - Estabelecer a generalidade da rodada de apostas
+- Organizar melhor a ordem dos acontecimentos, primeiro distribui as cartas para depois fazer as apostas da primeira rodada.
 
 
 # Caminho

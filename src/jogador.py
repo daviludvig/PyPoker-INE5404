@@ -17,25 +17,13 @@ class Jogador():
 
     def small_blind(self, pote):
         # Método que aposta uma ficha
-        ficha = self.pilha.fichas[0]
-        self.pilha.fichas.pop()
-
-        self.pilha.fichas_apostadas.append(ficha)
-        pote.add_fichas(self.pilha.fichas_apostadas)
+        self.pilha.apostar_ficha()
         self.realizou_jogada = True
 
     def big_blind(self, pote):
         # Método que aposta duas fichas
-        ficha1 = self.pilha.fichas[0]
-        self.pilha.fichas.pop()
-
-        ficha2 = self.pilha.fichas[0]
-        self.pilha.fichas.pop()
-
-        self.pilha.fichas_apostadas.append(ficha1)
-        self.pilha.fichas_apostadas.append(ficha2)
-
-        pote.add_fichas(self.pilha.fichas_apostadas)  
+        for i in range(2):
+            self.pilha.apostar_ficha()
         self.realizou_jogada = True  
 
     def decidir_jogada(self, mesa):
