@@ -48,7 +48,11 @@ class Jogador():
         if len(self.pilha.fichas) == 0 or len(self.pilha.fichas) < (aposta_vigente+1):
             return False
         else:
-            for i in range(aposta_vigente+1):
+            aumento = int(input(f">> Digite o valor do aumento (1 / {self.pilha._get_numero_fichas() - (aposta_vigente - self.pilha._get_numero_fichas_apostadas())}): "))
+            while aumento < 1 or (aumento > self.pilha._get_numero_fichas() - (aposta_vigente - self.pilha._get_numero_fichas_apostadas())):
+                aumento = int(input(f">> Digite o valor do aumento (1 / {self.pilha._get_numero_fichas() - (aposta_vigente - self.pilha._get_numero_fichas_apostadas())}): "))
+
+            for i in range(aposta_vigente+aumento):
                 self.pilha.apostar_ficha()
         return True
     

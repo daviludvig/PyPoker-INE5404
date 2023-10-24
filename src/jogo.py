@@ -4,6 +4,7 @@ from time import sleep
 from jogador import Jogador
 from bot import Bot
 from visual import Visual
+import os
 
 class Jogo():
     def __init__(self, dealer, maleta, pote, baralho, mesa):
@@ -19,6 +20,7 @@ class Jogo():
         self.set_aposta_jogador()
         self.set_apostas_bots()
         self.set_fichas_jogadores(dealer, maleta)
+        os.system('clear')
         self.organizar_lugares()
         # self.visual(dealer)
         self.primeira_rodada(dealer, pote, baralho, mesa)
@@ -175,9 +177,13 @@ class Jogo():
             else:
                 if not jogador.desistiu:
                     print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
-            for jogador in self.jogadores:
-                if jogador.desistiu:
-                    print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{' '*8}FORA")
+        for jogador in self.jogadores:
+            if jogador.desistiu:
+                print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{' '*8}FORA")
+        for jogador in self.jogadores:
+            if jogador.nome == self.nome_do_jogador:
+                print(f"\nSUAS FICHAS:")
+                print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
 
 
     def tela_de_relatorio(self, mesa):
@@ -221,6 +227,7 @@ class Jogo():
 
         self.decisao_rodada()
         self.set_cartas_inicias(dealer, baralho)
+    
     def loop(self):
        pass
 
