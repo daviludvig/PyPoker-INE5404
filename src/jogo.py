@@ -23,6 +23,7 @@ class Jogo():
         self.primeira_rodada(dealer, pote, baralho, mesa)
         self.set_cartas_mesa(dealer, mesa, baralho)
         self.mostrar_flop(mesa)
+        self.set_pontuacao_jogadores(mesa)
         
 
     def iniciar(self):
@@ -120,10 +121,27 @@ class Jogo():
         # Método que define a pontuação de cada jogador
         for jogador in self.jogadores:
             jogador.pontos.set_pontuacao(jogador, mesa)
-            print(jogador.pontos.score)
 
     def tela_de_decisao(self):
         pass
+
+    def rodada_apostas(self):
+        for jogador in 
+
+        for jogador in self.jogadores:
+            if jogador.nome == self.nome_do_jogador:
+                self.tela_de_relatorio()
+                decisao = input("\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: ")
+                while decisao not in ['c', 'a', 'd']:
+                    decisao = input("\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: ")
+                if decisao == 'c':
+                    jogador.cobrir()
+                elif decisao == 'a':
+                    jogador.aumentar()
+                elif decisao == 'd':
+                    jogador.desistir()
+            else:
+                jogador.decidir_jogada()
 
     def mostrar_flop(self, mesa):
         # Método que imprime as cartas comunitárias
@@ -171,14 +189,15 @@ class Jogo():
         apostaram.append(self.jogadores[0])
         apostaram.append(self.jogadores[1])
 
-        self.set_cartas_inicias(dealer, baralho)
+        if not flag:
+            self.rodada_apostas()
 
-        if flag:
-            self.tela_de_relatorio()
-        else:
-            self.tela_de_relatorio()
+        # self.set_cartas_inicias(dealer, baralho)
 
-        self.set_pontuacao_jogadores(mesa)
+        # if flag:
+        #     self.tela_de_relatorio()
+        # else:
+        #     self.tela_de_relatorio()
 
         
 

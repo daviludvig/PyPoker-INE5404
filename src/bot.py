@@ -13,29 +13,34 @@ class Bot(Jogador):
 
         # 1 - Cobrir
         if (9 <= aleatorio <= 7):
-            return 1
+            self.cobrir(mesa, aposta_vigente)
         # 2 - Aumentar
         if (6 <= aleatorio <= 3):
-            return 2
+            self.aumentar(mesa, aposta_vigente)
         # 3 - Desistir
         if (2 <= aleatorio <= 1):
-            return 3
+            self.desistir()
         
 
     def __str__(self):
         return self.nome
     
-    def cobrir(self, aposta_vigente):
-        pass
+    def cobrir(self, mesa, aposta_vigente):
+        # Método que cobre a aposta vigente
+        if len(self.pilha.fichas) == 0 or len(self.pilha.fichas) < aposta_vigente:
+            self.decidir_jogada(mesa, aposta_vigente)
+        else:
+            for i in range(aposta_vigente):
+                self.rodada.apostar_ficha()
 
-    def aumentar(self, aposta_vigente):
+    def aumentar(self, mesa, aposta_vigente):
         # Método que aumenta a aposta vigente
         if len(self.pilha.fichas) == 0 or len(self.pilha.fichas) < (aposta_vigente+1):
-            return False
+            self.decidir_jogada(mesa, aposta_vigente)
         else:
-            for i in range(aposta_vigente+1):
+            self.cobrir(aposta_vigente)
+            for i in range(randint(1, len(self.pilha.fichas) - aposta_vigente)):
                 self.rodada.apostar_ficha()
-        
 
     def desistir(self):
         self.desistiu = True
