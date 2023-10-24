@@ -112,8 +112,6 @@ class Jogo():
     def tela_de_decisao(self):
         pass
 
-    def 
-
     def tela_de_relatorio(self):
         # Método que imprime o relatório da rodada
 

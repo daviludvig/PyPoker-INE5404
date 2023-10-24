@@ -1,12 +1,14 @@
 from mao import Mao
 from pessoa import Pessoa
 from stack import Pilha
+from pontuacao import Pontuacao
 
 class Jogador(Pessoa):
     def __init__(self, nome):
         super().__init__(nome)
         self.rodada = Mao()
         self.pilha = Pilha()
+        self.pontos = Pontuacao()
 
     def limpa_mao(self):
         # Método que limpa a mão do jogador

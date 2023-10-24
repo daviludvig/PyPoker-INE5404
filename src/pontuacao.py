@@ -1,14 +1,25 @@
 from math import ceil
 
-class Possibilidades():
-    def __init__(self, alvo, mesa):
+class Pontuacao():
+    def __init__(self):
         self.score = 0
+        self.flag = False
         self.checagem = False
+
+    def set_cartas(self, alvo, mesa):
         self.cartas = alvo.rodada.get_cartas() + mesa.get_flop()
 
-    def checar_possibilidades(self):
+    def set_pontuacao(self):
         # Metodo que seta o score do jogador
-        pass
+        self.royal_flush()
+        self.straigth_flush()
+        self.quadra()
+        self.full_house()
+        self.flush()
+        self.straigth()
+        self.trinca()
+        self.dois_pares()
+        self.um_par()
 
     def royal_flush(self):
         # Método que verifica se o jogador tem um royal flush
@@ -23,7 +34,9 @@ class Possibilidades():
                     if carta.get_naipe() == naipe:
                         valores.append(carta.get_valor())
                 if "Ás" in valores and "Rei" in valores and "Dama" in valores and "Valete" in valores and "10" in valores:
-                    self.score = 10
+                    if not self.flag:
+                        self.score = 10
+                        self.flag = True
     
     def straigth_flush(self):
         # Método que verifica se o jogador tem um straigth flush
@@ -40,8 +53,10 @@ class Possibilidades():
                 valores.sort()
                 for i in range(len(valores)-4):
                     if sum(valores)/len(valores) == int(valores[ceil(len(valores)/2)]):
-                        self.score = 9
-    
+                        if not self.flag:
+                            self.score = 9
+                            self.flag = True
+        
     def quadra(self):
         # Método que verifica se o jogador tem uma quadra
         valores = []
@@ -50,6 +65,7 @@ class Possibilidades():
         for valor in valores:
             if valores.count(valor) >= 4:
                 self.score = 8
+                self.flag = True
             
     def full_house(self):
         # Método que verifica se o jogador tem um full house
@@ -60,7 +76,9 @@ class Possibilidades():
             if valores.count(valor) >= 3:
                 for valor2 in valores:
                     if valores.count(valor2) >= 2 and valor != valor2:
-                        self.score = 7
+                        if not self.flag:
+                            self.score = 7
+                            self.flag = True
             
     def flush(self):
         # Método que verifica se o jogador tem um flush
@@ -70,7 +88,9 @@ class Possibilidades():
         aux = ["Paus", "Copas", "Espadas", "Ouro"]
         for naipe in aux:
             if naipes.count(naipe) >= 5:
-                self.score = 6
+                if not self.flag:
+                    self.score = 6
+                    self.flag = True
             
     def straigth(self):
         # Método que verifica se o jogador tem um straigth
@@ -80,7 +100,9 @@ class Possibilidades():
         valores.sort()
         for i in range(len(valores)-4):
             if valores[i] == valores[i+1] - 1 and valores[i+1] == valores[i+2] - 1 and valores[i+2] == valores[i+3] - 1 and valores[i+3] == valores[i+4] - 1:
-                self.score = 5
+                if not self.flag:
+                    self.score = 5
+                    self.flag = True
 
     def trinca(self):
         # Método que verifica se o jogador tem uma trinca
@@ -89,7 +111,9 @@ class Possibilidades():
             valores.append(carta.get_valor())
         for valor in valores:
             if valores.count(valor) >= 3:
-                self.score = 4
+                if not self.flag:
+                    self.score = 4
+                    self.flag = True
             
     def dois_pares(self):
         # Metodo que verifica se o jogador tem dois pares
@@ -100,7 +124,9 @@ class Possibilidades():
             if valores.count(valor) >= 2:
                 for valor2 in valores:
                     if valores.count(valor2) >= 2 and valor != valor2:
-                        self.score = 3
+                        if not self.flag:
+                            self.score = 3
+                            self.flag = True
     
     def um_par(self):
         # Método que verifica se o jogador tem um par
@@ -109,7 +135,9 @@ class Possibilidades():
             valores.append(carta.get_valor())
         for valor in valores:
             if valores.count(valor) >= 2:
-                self.score = 2
+                if not self.flag:
+                    self.score = 2
+                    self.flag = True
     
 
     # Nunca vai chegar nesse método
