@@ -15,7 +15,7 @@ class Dealer(Pessoa):
         for i in range(3):
             carta = baralho.get_baralho()[0]
             baralho.get_baralho().remove(carta)
-            mesa._set_comunitaria(carta)
+            mesa._set_flop(carta)
     
     def distribuir_ficha(self, maleta, alvo):
         # Método que distribui uma ficha para um jogador

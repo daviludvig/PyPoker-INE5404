@@ -16,7 +16,6 @@ class Baralho():
 
         for naipe in naipes:
             for valor in valores:
-
                 if naipe == "Ouro" or naipe == "Copas":
                     cor = "Vermelho"
                 else:

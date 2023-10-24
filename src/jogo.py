@@ -5,7 +5,7 @@ from jogador import Jogador
 from visual import Visual
 
 class Jogo():
-    def __init__(self, dealer, maleta, pote, baralho):
+    def __init__(self, dealer, maleta, pote, baralho, mesa):
         self.apostas = []
         self.jogadores = []
         self.desistencias = []
@@ -18,7 +18,9 @@ class Jogo():
         self.set_fichas_jogadores(dealer, maleta)
         self.organizar_lugares()
         self.visual(dealer)
-        self.primeira_rodada(dealer, pote, baralho)
+        self.primeira_rodada(dealer, pote, baralho, mesa)
+        self.set_cartas_mesa(dealer, mesa, baralho)
+        self.mostrar_flop(mesa)
         
 
     def iniciar(self):
@@ -109,8 +111,20 @@ class Jogo():
         # Método que remove um jogador da partida
         self.desistencias.append(jogador)
 
+    def set_pontuacao_jogadores(self, mesa):
+        # Método que define a pontuação de cada jogador
+        for jogador in self.jogadores:
+            jogador.pontos.set_cartas(jogador, mesa)
+            jogador.pontos.set_pontuacao()
+
     def tela_de_decisao(self):
         pass
+
+    def mostrar_flop(self, mesa):
+        # Método que imprime as cartas comunitárias
+        print("\nFLOP:")
+        for carta in mesa.get_flop():
+            print(f"{carta}")
 
     def tela_de_relatorio(self):
         # Método que imprime o relatório da rodada
@@ -128,7 +142,7 @@ class Jogo():
                 for carta in jogador.rodada.get_cartas():
                     print(f"{carta}")
 
-    def primeira_rodada(self, dealer, pote, baralho):
+    def primeira_rodada(self, dealer, pote, baralho, mesa):
         # Método que realiza a primeira rodada de apostas
 
         apostaram = []
@@ -155,5 +169,8 @@ class Jogo():
             self.tela_de_relatorio()
         else:
             self.tela_de_relatorio()
+
+        self.set_pontuacao_jogadores(mesa)
+
         
 
