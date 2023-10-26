@@ -20,4 +20,11 @@ class Dealer():
         ficha = maleta.get_fichas()[0]
         maleta.get_fichas().remove(ficha)
         alvo._set_ficha(ficha)
+
+    def aumentar_flop(self, mesa, baralho):
+        # Método que distribui uma carta comunitária
+        baralho.get_baralho().pop(0)
+        carta = baralho.get_baralho()[0]
+        baralho.get_baralho().pop(0)
+        mesa._set_flop(carta)
         

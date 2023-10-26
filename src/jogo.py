@@ -22,12 +22,12 @@ class Jogo():
         self.set_fichas_jogadores(dealer, maleta)
         self.meio_rodada()
         self.organizar_lugares()
-        # self.visual(dealer)
+        self.visual(dealer)
         self.primeira_rodada(dealer, pote, baralho, mesa)
         self.set_cartas_mesa(dealer, mesa, baralho)
         self.set_pontuacao_jogadores(mesa)
-        self.tela_de_relatorio(mesa)
-        self.loop(mesa)
+        self.tela_de_relatorio(mesa, pote)
+        self.loop(mesa, baralho, dealer, pote)
         
 
     def iniciar(self):
@@ -100,6 +100,10 @@ class Jogo():
         # Método que organiza os lugares dos jogadores
             shuffle(self.jogadores)
     
+    def aumentar_flop(self, dealer, mesa, baralho):
+        # Método que aumenta o flop
+        dealer.aumentar_flop(mesa, baralho)
+
     def visual(self, dealer):
         # Método que imprime a disposição dos jogadores
         participantes = self.jogadores.copy()
@@ -110,6 +114,10 @@ class Jogo():
     def meio_rodada(self):
         aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
         os.system('clear')
+
+    def mostrar_pote(self, pote):
+        # Método que imprime o pote
+        print(f"\nPOTE: {pote.get_numero_fichas()}")
 
     def check(self, decisao, apostaram):
         # Método que realiza as apostas de uma rodada
@@ -134,7 +142,7 @@ class Jogo():
     def tela_de_decisao(self):
         pass
 
-    def decisao_rodada(self):
+    def decisao_rodada(self, mesa, pote):
         aposta_vigente = 0
         for jogador in self.jogadores:
             if jogador.pilha._get_numero_fichas_apostadas() != 0:
@@ -142,7 +150,7 @@ class Jogo():
 
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
-                self.mini_relatorio()
+                self.mini_relatorio(mesa, pote)
                 while not jogador.realizou_jogada:
                     decisao = input("\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: ")
                     while decisao not in ['c', 'a', 'd']:
@@ -168,7 +176,7 @@ class Jogo():
         for carta in mesa.get_flop():
             print(f"{carta}")
 
-    def mini_relatorio(self):
+    def mini_relatorio(self, mesa, pote):
         print(f"\n{'=+'*10}ASSISTENTE{'=+'*10}\n")
         for i in range(len(self.jogadores)-1):
             if self.jogadores[i+1].nome == self.nome_do_jogador or self.jogadores[i].nome == self.nome_do_jogador:
@@ -182,16 +190,19 @@ class Jogo():
             else:
                 if not jogador.desistiu:
                     print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
-        # for jogador in self.jogadores:
-        #     if jogador.desistiu:
-        #         print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{' '*8}FORA")
+        self.mostrar_pote(pote)
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
                 print(f"\nSUAS FICHAS:")
                 print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
+        for jogador in self.jogadores:
+            if jogador.nome == self.nome_do_jogador:
+                print(f"\nSUAS CARTAS:")
+                for carta in jogador.rodada.get_cartas():
+                    print(f"{carta}")
+        self.mostrar_flop(mesa)
 
-
-    def tela_de_relatorio(self, mesa):
+    def tela_de_relatorio(self, mesa, pote):
         # Método que imprime o relatório da rodada
 
         for i in range(len(self.jogadores)-1):
@@ -205,6 +216,7 @@ class Jogo():
         for jogador in self.jogadores:
             if jogador.desistiu:
                 print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{' '*8}FORA")
+        self.mostrar_pote(pote)
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
                 print(f"\nSUAS CARTAS:")
@@ -236,10 +248,10 @@ class Jogo():
         self.apostaram.append(self.jogadores[1])
 
         if not flag:
-            self.decisao_rodada()
+            self.decisao_rodada(mesa, pote)
         self.set_cartas_inicias(dealer, baralho)
     
-    def loop(self, mesa):
+    def loop(self, mesa, baralho, dealer, pote):
         while True:
             self.meio_rodada()
             if len(self.desistencias) == len(self.jogadores) - 1:
@@ -250,7 +262,8 @@ class Jogo():
                     continue
                 else:
                     jogador.realizou_jogada = False
-            self.decisao_rodada()
-            self.tela_de_relatorio(mesa)
+            self.decisao_rodada(mesa, pote)
+            self.aumentar_flop(dealer, mesa, baralho)
+            self.tela_de_relatorio(mesa, pote)
            
 
