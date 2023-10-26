@@ -29,7 +29,7 @@ class Jogo():
         self.tela_de_relatorio(mesa, pote)
         self.loop(mesa, baralho, dealer, pote)
         
-
+        
     def iniciar(self):
         # Método que imprime a mensagem de início do jogo
         temporizacao_dinamica = [randint(1,4) / 100 for i in range(100)]
@@ -37,7 +37,7 @@ class Jogo():
             for letra in arquivo.read():
                 tempo = choice(temporizacao_dinamica)
                 print(letra, end="", flush=True)
-                #sleep(tempo)
+                sleep(tempo)
             print()
         pass
     
