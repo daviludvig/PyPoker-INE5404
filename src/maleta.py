@@ -7,7 +7,7 @@ class Maleta:
 
     def preencher(self):
         # Método que preenche a maleta com as fichas
-        for i in range(400):
+        for i in range(800):
             self.fichas.append(Ficha().gerar_ficha())
 
     def get_fichas(self):

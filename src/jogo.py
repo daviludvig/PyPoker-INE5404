@@ -20,13 +20,14 @@ class Jogo():
         self.set_aposta_jogador()
         self.set_apostas_bots()
         self.set_fichas_jogadores(dealer, maleta)
-        os.system('clear')
+        self.meio_rodada()
         self.organizar_lugares()
         # self.visual(dealer)
         self.primeira_rodada(dealer, pote, baralho, mesa)
         self.set_cartas_mesa(dealer, mesa, baralho)
         self.set_pontuacao_jogadores(mesa)
         self.tela_de_relatorio(mesa)
+        self.loop(mesa)
         
 
     def iniciar(self):
@@ -66,7 +67,7 @@ class Jogo():
         # Método que define o valor apostado pelo jogador
         self.aposta_jogador = int(input(">> Digite o valor da sua aposta: "))
         while self.aposta_jogador < 200 or self.aposta_jogador > 2000 or self.aposta_jogador % 50 != 0:
-            print(f"\nValor de aposta inválido. Tente novamente (200 < n < 2000) com um número múltiplo de 50.")
+            print(f"\nValor de aposta inválido. Tente novamente (200 < n < 2000) com um número múltiplo de 25.")
             self.aposta_jogador = int(input(">> Digite o valor da aposta: "))
         self.apostas.append(self.aposta_jogador)
 
@@ -74,14 +75,14 @@ class Jogo():
         # Método que define as apostas dos bots
         for i in range(self.quantidade_jogadores - 1):
             aposta_bot = randint(self.aposta_jogador//2, self.aposta_jogador*2)
-            while aposta_bot < 200 or aposta_bot > 2000 or aposta_bot % 50 != 0:
+            while aposta_bot < 200 or aposta_bot > 2000 or aposta_bot % 25 != 0:
                 aposta_bot = randint(self.aposta_jogador//2, self.aposta_jogador*2)
             self.apostas.append(aposta_bot)
     
     def set_fichas_jogadores(self, dealer, maleta):
         # Método que distribui 10 fichas para cada jogador
         for i in range((len(self.jogadores))):
-            fichas = self.apostas[i] // 50
+            fichas = self.apostas[i] // 25
             for j in range(fichas):
                 dealer.distribuir_ficha(maleta, self.jogadores[i].pilha)
 
@@ -105,6 +106,10 @@ class Jogo():
         participantes.append(dealer)
 
         visual = Visual(participantes, self.nome_do_jogador)
+
+    def meio_rodada(self):
+        aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
+        os.system('clear')
 
     def check(self, decisao, apostaram):
         # Método que realiza as apostas de uma rodada
@@ -164,7 +169,7 @@ class Jogo():
             print(f"{carta}")
 
     def mini_relatorio(self):
-        print("JOGARAM ANTES DE VOCÊ:") 
+        print(f"\n{'=+'*10}ASSISTENTE{'=+'*10}\n")
         for i in range(len(self.jogadores)-1):
             if self.jogadores[i+1].nome == self.nome_do_jogador or self.jogadores[i].nome == self.nome_do_jogador:
                 continue
@@ -177,9 +182,9 @@ class Jogo():
             else:
                 if not jogador.desistiu:
                     print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}")
-        for jogador in self.jogadores:
-            if jogador.desistiu:
-                print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{' '*8}FORA")
+        # for jogador in self.jogadores:
+        #     if jogador.desistiu:
+        #         print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{' '*8}FORA")
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
                 print(f"\nSUAS FICHAS:")
@@ -210,24 +215,42 @@ class Jogo():
 
     def primeira_rodada(self, dealer, pote, baralho, mesa):
         # Método que realiza a primeira rodada de apostas
-        aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
-        print(f"\n{'=+'*10}SOBRE{'=+'*10}\n")
         flag = False
-        for i in range(len(self.jogadores)):
-            if self.jogadores[i].nome == self.nome_do_jogador:
-                if i < 2:
-                    flag = True
-                    print(f"-> Nesta rodada a sua posição fez você apostar {i+1} ficha(s).")
+
+        while True:
+            for i in range(len(self.jogadores)):
+                if self.jogadores[i].nome == self.nome_do_jogador:
+                    if i < 2:
+                        self.organizar_lugares()
+                        break
+                    else:
+                        flag = True
+                        break
+            if flag:
                 break
+
 
         self.jogadores[0].small_blind(pote)
         self.jogadores[1].big_blind(pote)
         self.apostaram.append(self.jogadores[0])
         self.apostaram.append(self.jogadores[1])
 
-        self.decisao_rodada()
+        if not flag:
+            self.decisao_rodada()
         self.set_cartas_inicias(dealer, baralho)
     
-    def loop(self):
-       pass
+    def loop(self, mesa):
+        while True:
+            self.meio_rodada()
+            if len(self.desistencias) == len(self.jogadores) - 1:
+                print(f"\n{self.desistencias[0].nome} venceu a partida!")
+                break
+            for jogador in self.jogadores:
+                if jogador.desistiu:
+                    continue
+                else:
+                    jogador.realizou_jogada = False
+            self.decisao_rodada()
+            self.tela_de_relatorio(mesa)
+           
 
