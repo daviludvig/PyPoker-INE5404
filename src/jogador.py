@@ -17,15 +17,13 @@ class Jogador():
 
     def small_blind(self, pote):
         # Método que aposta uma ficha
-        self.pilha.apostar_ficha()
-        pote.add_fichas(self.pilha.fichas_apostadas[0])
+        self.pilha.apostar_ficha(pote)
         self.realizou_jogada = True
 
     def big_blind(self, pote):
         # Método que aposta duas fichas
         for i in range(2):
-            self.pilha.apostar_ficha()
-            pote.add_fichas(self.pilha.fichas_apostadas[i])
+            self.pilha.apostar_ficha(pote)
         self.realizou_jogada = True  
 
     def decidir_jogada(self, mesa):
@@ -36,7 +34,7 @@ class Jogador():
     def __str__(self):
         return self.nome
     
-    def cobrir(self, aposta_vigente):
+    def cobrir(self, aposta_vigente, pote):
         # Método que cobre a aposta vigente
         # if len(self.pilha.fichas) == 0: #or len(self.pilha.fichas) < aposta_vigente:
         #     return False
@@ -44,10 +42,10 @@ class Jogador():
         for i in range(aposta_vigente - self.pilha._get_numero_fichas_apostadas()):
             if self.pilha._get_numero_fichas == 0:
                 break
-            self.pilha.apostar_ficha()
+            self.pilha.apostar_ficha(pote)
         return True
     
-    def aumentar(self, aposta_vigente):
+    def aumentar(self, aposta_vigente, pote):
         # Método que aumenta a aposta vigente
         if len(self.pilha.fichas) == 0 or len(self.pilha.fichas) < (aposta_vigente+1 - self.pilha._get_numero_fichas_apostadas()):
             return False
@@ -59,7 +57,7 @@ class Jogador():
             for i in range(aposta_vigente+aumento):
                 if self.pilha._get_numero_fichas == 0:
                     break
-                self.pilha.apostar_ficha()
+                self.pilha.apostar_ficha(pote)
         return True
     
     def desistir(self):

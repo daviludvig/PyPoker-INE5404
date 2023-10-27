@@ -70,7 +70,7 @@ class Jogo:
         # Método que gera os bots
         with open("/Users/daviludvig/Documents/UFSC/23.2/Python/10-17/Poker/docs/nomes_bots.txt","r") as file:
             temp = file.read()
-            temp = temp.split(",")
+            temp = temp.split(", ")
             file.close()
         for i in range(self.quantidade_jogadores - 1):
             nome = choice(temp)
@@ -180,14 +180,14 @@ class Jogo:
                             "\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: "
                         )
                     if decisao == "c":
-                        jogador.realizou_jogada = jogador.cobrir(aposta_vigente)
+                        jogador.realizou_jogada = jogador.cobrir(aposta_vigente, pote)
                     elif decisao == "a":
-                        jogador.realizou_jogada = jogador.aumentar(aposta_vigente)
+                        jogador.realizou_jogada = jogador.aumentar(aposta_vigente, pote)
                     elif decisao == "d":
                         jogador.realizou_jogada = jogador.desistir()
             else:
                 if not jogador.realizou_jogada:
-                    jogador.decidir_jogada(aposta_vigente)
+                    jogador.decidir_jogada(aposta_vigente, pote)
                     jogador.realizou_jogada = True
 
             if jogador.pilha._get_numero_fichas_apostadas() > aposta_vigente:
@@ -212,27 +212,21 @@ class Jogo:
                 len(self.jogadores[i].nome), len(self.jogadores[i + 1].nome)
             )
 
-        maximo = max(7, maior_length)
-        if maximo == 7:
-            espacos = 7 - maior_length
-        else:
-            espacos = maior_length - 7
-
-        print(f"FICHAS{(maximo)*' '}APOSTADAS  RESTANTES")
+        print(f"{((maior_length+3-6)//2)*' '}FICHAS{((maior_length+3-6)//2)*' '}APOSTADAS  RESTANTES")
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
                 break
             else:
                 if not jogador.desistiu:
                     print(
-                        f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
+                        f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
                     )
         self.mostrar_pote(pote)
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
                 print(f"\nSUAS FICHAS:")
                 print(
-                    f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
+                    f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
                 )
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
