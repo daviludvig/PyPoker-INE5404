@@ -4,6 +4,7 @@ from jogador import Jogador
 from bot import Bot
 from visual import Visual
 import os
+from random import choice
 
 
 class Jogo:
@@ -22,7 +23,6 @@ class Jogo:
         self.set_fichas_jogadores(dealer, maleta)
         self.meio_rodada()
         self.organizar_lugares()
-        # self.visual(dealer)
         self.primeira_rodada(dealer, pote, baralho, mesa)
         self.set_cartas_mesa(dealer, mesa, baralho)
         self.set_pontuacao_jogadores(mesa)
@@ -68,8 +68,14 @@ class Jogo:
 
     def gerar_bots(self):
         # Método que gera os bots
+        with open("/Users/daviludvig/Documents/UFSC/23.2/Python/10-17/Poker/docs/nomes_bots.txt","r") as file:
+            temp = file.read()
+            temp = temp.split(",")
+            file.close()
         for i in range(self.quantidade_jogadores - 1):
-            self.jogadores.append(Bot(f"Bot {i+1}"))
+            nome = choice(temp)
+            temp.remove(nome)
+            self.jogadores.append(Bot(f"{nome}"))
 
     def set_aposta_jogador(self):
         # Método que define o valor apostado pelo jogador
@@ -242,23 +248,16 @@ class Jogo:
             maior_length = max(
                 len(self.jogadores[i].nome), len(self.jogadores[i + 1].nome)
             )
-
-        maximo = max(7, maior_length)
-        if maximo == 7:
-            espacos = 7 - maior_length
-        else:
-            espacos = maior_length - 7
-
         print(f"\n{'=+'*10}RELATÓRIO{'=+'*10}\n")
-        print(f"FICHAS{(espacos)*' '}APOSTADAS  RESTANTES")
+        print(f"{((maior_length+3-6)//2)*' '}FICHAS{((maior_length+3-6)//2)*' '}APOSTADAS  RESTANTES")
         for jogador in self.jogadores:
             if not jogador.desistiu:
                 print(
-                    f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
+                    f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
                 )
         for jogador in self.jogadores:
             if jogador.desistiu:
-                print(f"{jogador}{(maior_length+2-len(jogador.nome))*' '}|{' '*8}FORA")
+                print(f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{' '*8}FORA")
         self.mostrar_pote(pote)
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
@@ -281,8 +280,9 @@ class Jogo:
                         flag = True
                         break
             if flag:
+                self.visual(dealer)
                 break
-
+        
         self.jogadores[0].small_blind(pote)
         self.jogadores[1].big_blind(pote)
         self.apostaram.append(self.jogadores[0])
@@ -293,6 +293,7 @@ class Jogo:
         self.set_cartas_inicias(dealer, baralho)
 
     def loop(self, mesa, baralho, dealer, pote):
+        contador = 0
         while True:
             self.meio_rodada()
             if len(self.desistencias) == len(self.jogadores) - 1:
@@ -304,5 +305,7 @@ class Jogo:
                 else:
                     jogador.realizou_jogada = False
             self.decisao_rodada(mesa, pote)
-            self.aumentar_flop(dealer, mesa, baralho)
+            if contador < 2:
+                contador += 1
+                self.aumentar_flop(dealer, mesa, baralho)
             self.tela_de_relatorio(mesa, pote)
