@@ -35,13 +35,13 @@ class Bot(Jogador):
 
     def aumentar(self,aposta_vigente,pote):
         # Método que aumenta a aposta vigente.
-        if len(self.pilha.fichas) == 0 or len(self.pilha.fichas) < (aposta_vigente+1):
+        if len(self.pilha.fichas) == 0 or len(self.pilha.fichas) < (aposta_vigente+2):
             self.decidir_jogada(aposta_vigente, pote)
         else:
             self.cobrir(aposta_vigente, pote)
             diferenca = self.pilha._get_numero_fichas() - (aposta_vigente - self.pilha._get_numero_fichas_apostadas())
             diferenca = diferenca//2
-            for i in range(randint(1, diferenca)):
+            for i in range(randint(2, diferenca)):
                 if self.pilha._get_numero_fichas == 0:
                     break
                 self.pilha.apostar_ficha(pote)

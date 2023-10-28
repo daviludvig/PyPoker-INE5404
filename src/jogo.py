@@ -245,15 +245,15 @@ class Jogo:
             )
         maior_length += 1
         print(f"\n{'=+'*10}RELATÓRIO{'=+'*10}\n")
-        print(f"{((maior_length+3-6)//2)*' '}FICHAS{((maior_length+3-6)//2)*' '}APOSTADAS  RESTANTES")
+        print(f"{abs(((maior_length+3-6)//2))*' '}FICHAS{abs(((maior_length+3-6)//2))*' '}APOSTADAS  RESTANTES")
         for jogador in self.jogadores:
             if not jogador.desistiu:
                 print(
-                    f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
+                    f"{jogador}{abs((maior_length+1-len(jogador.nome)))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
                 )
         for jogador in self.jogadores:
             if jogador.desistiu:
-                print(f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{' '*8}FORA")
+                print(f"{jogador}{abs((maior_length+1-len(jogador.nome)))*' '}|{' '*8}FORA")
         self.mostrar_pote(pote)
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
