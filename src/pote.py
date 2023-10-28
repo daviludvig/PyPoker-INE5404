@@ -6,6 +6,6 @@ class Pote:
         # Método que adiciona fichas ao pote
         self.fichas.append(ficha)
 
-    def get_numero_fichas(self):
+    def get_pote(self):
         # Método que retorna o número de fichas do pote
         return len(self.fichas)

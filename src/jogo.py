@@ -63,6 +63,7 @@ class Jogo:
     def gerar_jogador(self):
         # Método que gera o jogador
         self.nome_do_jogador = input(">> Digite o seu nome: ").capitalize()
+        self.nome_do_jogador = "* " + self.nome_do_jogador
         self.jogador = Jogador(self.nome_do_jogador)
         self.jogadores.append(self.jogador)
 
@@ -137,7 +138,7 @@ class Jogo:
 
     def mostrar_pote(self, pote):
         # Método que imprime o pote
-        print(f"\nPOTE: {pote.get_numero_fichas()}")
+        print(f"\nPOTE: {pote.get_pote()} = R${pote.get_pote()*25}.00")
 
     def check(self, decisao, apostaram):
         # Método que realiza as apostas de uma rodada
@@ -170,7 +171,7 @@ class Jogo:
 
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
-                self.mini_relatorio(mesa, pote)
+                self.tela_de_relatorio(mesa, pote)
                 while not jogador.realizou_jogada:
                     decisao = input(
                         "\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: "
@@ -242,6 +243,7 @@ class Jogo:
             maior_length = max(
                 len(self.jogadores[i].nome), len(self.jogadores[i + 1].nome)
             )
+        maior_length += 1
         print(f"\n{'=+'*10}RELATÓRIO{'=+'*10}\n")
         print(f"{((maior_length+3-6)//2)*' '}FICHAS{((maior_length+3-6)//2)*' '}APOSTADAS  RESTANTES")
         for jogador in self.jogadores:
@@ -274,7 +276,7 @@ class Jogo:
                         flag = True
                         break
             if flag:
-                self.visual(dealer)
+                # self.visual(dealer)
                 break
         
         self.jogadores[0].small_blind(pote)
