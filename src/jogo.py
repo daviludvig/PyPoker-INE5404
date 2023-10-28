@@ -39,7 +39,7 @@ class Jogo:
             for letra in arquivo.read():
                 tempo = choice(temporizacao_dinamica)
                 print(letra, end="", flush=True)
-                # sleep(tempo)
+                sleep(tempo)
             print()
         pass
 
@@ -276,7 +276,7 @@ class Jogo:
                         flag = True
                         break
             if flag:
-                # self.visual(dealer)
+                self.visual(dealer)
                 break
         
         self.jogadores[0].small_blind(pote)
@@ -293,19 +293,35 @@ class Jogo:
             if not jogador.desistiu:
                 jogador.realizou_jogada = False
 
+    def mostrar_todas_cartas(self, mesa):
+        for jogador in self.jogadores:
+            print(f"{jogador.nome}: ")
+            for carta in jogador.rodada.get_cartas():
+                print(f"{carta}")
+            print()
+        for carta in mesa.get_flop():
+            print(f"{carta}")
+
     def loop(self, mesa, baralho, dealer, pote):
         contador = 0
         while True:
             self.meio_rodada()
             if len(self.desistencias) == len(self.jogadores) - 1:
-                print(f"\n{self.desistencias[0].nome} venceu a partida!")
+                for jogador in self.jogadores:
+                    if not jogador.desistiu:
+                        print(f"\n{jogador.nome} venceu a partida!")
+                        break
                 break
-            for jogador in self.jogadores:
-                if jogador.desistiu:
-                    continue
-            self.decisao_rodada(mesa, pote)
             if contador < 2:
-                contador += 1
+                for jogador in self.jogadores:
+                    if jogador.desistiu:
+                        continue
+                self.decisao_rodada(mesa, pote)
                 self.aumentar_flop(dealer, mesa, baralho)
-            self.tela_de_relatorio(mesa, pote)
-            self.reiniciar()
+                self.tela_de_relatorio(mesa, pote)
+                self.reiniciar()
+            else:
+                self.mostrar_todas_cartas(mesa)
+                break
+            contador += 1
+
