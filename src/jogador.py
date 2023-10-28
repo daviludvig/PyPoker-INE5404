@@ -40,7 +40,7 @@ class Jogador():
         #     return False
         # else:
         for i in range(aposta_vigente - self.pilha._get_numero_fichas_apostadas()):
-            if self.pilha._get_numero_fichas == 0:
+            if len(self.pilha.fichas) == 0:
                 break
             self.pilha.apostar_ficha(pote)
         return True

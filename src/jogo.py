@@ -294,23 +294,21 @@ class Jogo:
     def reiniciar(self):
         for jogador in self.jogadores:
             if not jogador.desistiu:
-                jogador.realiar_jogada = False
+                jogador.realizou_jogada = False
 
     def loop(self, mesa, baralho, dealer, pote):
         contador = 0
         while True:
             self.meio_rodada()
-            self.reiniciar()
             if len(self.desistencias) == len(self.jogadores) - 1:
                 print(f"\n{self.desistencias[0].nome} venceu a partida!")
                 break
             for jogador in self.jogadores:
                 if jogador.desistiu:
                     continue
-                else:
-                    jogador.realizou_jogada = False
             self.decisao_rodada(mesa, pote)
             if contador < 2:
                 contador += 1
                 self.aumentar_flop(dealer, mesa, baralho)
             self.tela_de_relatorio(mesa, pote)
+            self.reiniciar()

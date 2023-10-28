@@ -25,10 +25,6 @@ class Bot(Jogador):
         return self.nome
     
     def cobrir(self,aposta_vigente,pote):
-        # Método que cobre a aposta vigente
-        # if len(self.pilha.fichas) == 0: #or len(self.pilha.fichas) < aposta_vigente:
-        #     self.decidir_jogada(aposta_vigente)
-        # else:
         for i in range(aposta_vigente - self.pilha._get_numero_fichas_apostadas()):
             if self.pilha._get_numero_fichas == 0:
                 break
