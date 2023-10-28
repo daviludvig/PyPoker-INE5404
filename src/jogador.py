@@ -35,15 +35,14 @@ class Jogador():
         return self.nome
     
     def cobrir(self, aposta_vigente, pote):
-        # Método que cobre a aposta vigente
-        # if len(self.pilha.fichas) == 0: #or len(self.pilha.fichas) < aposta_vigente:
-        #     return False
-        # else:
-        for i in range(aposta_vigente - self.pilha._get_numero_fichas_apostadas()):
-            if len(self.pilha.fichas) == 0:
-                break
-            self.pilha.apostar_ficha(pote)
+        if aposta_vigente - self.pilha._get_numero_fichas_apostadas() > self.pilha._get_numero_fichas():
+            for i in range(self.pilha._get_numero_fichas()):
+                self.pilha.apostar_ficha(pote)
+        else:
+            for i in range(aposta_vigente - self.pilha._get_numero_fichas_apostadas()):
+                self.pilha.apostar_ficha(pote)
         return True
+
     
     def aumentar(self, aposta_vigente, pote):
         # Método que aumenta a aposta vigente
@@ -54,7 +53,7 @@ class Jogador():
             while aumento < 1 or (aumento > self.pilha._get_numero_fichas() - (aposta_vigente - self.pilha._get_numero_fichas_apostadas())):
                 aumento = int(input(f">> Digite o valor do aumento (1 / {self.pilha._get_numero_fichas() - (aposta_vigente - self.pilha._get_numero_fichas_apostadas())}): "))
 
-            for i in range(aposta_vigente+aumento):
+            for i in range((aposta_vigente-self.pilha._get_numero_fichas_apostadas())+aumento):
                 if self.pilha._get_numero_fichas == 0:
                     break
                 self.pilha.apostar_ficha(pote)

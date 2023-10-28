@@ -22,3 +22,13 @@ class Pilha:
         self.fichas.pop()
 
         self.fichas_apostadas.append(ficha)
+
+    def get_todas_fichas(self):
+        # Método que retorna todas as fichas do jogador
+        todas = len(self.fichas) + len(self.fichas_apostadas)
+        return todas
+    
+    def get_diferenca_fichas(self):
+        # Método que retorna a diferença entre as fichas do jogador
+        diferenca = len(self.fichas) - len(self.fichas_apostadas)
+        return diferenca

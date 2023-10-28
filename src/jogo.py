@@ -187,7 +187,6 @@ class Jogo:
                     elif decisao == "d":
                         jogador.realizou_jogada = jogador.desistir()
             else:
-                print(jogador.nome,jogador.realizou_jogada)
                 if not jogador.realizou_jogada:
                     jogador.decidir_jogada(aposta_vigente, pote)
                     jogador.realizou_jogada = True
@@ -282,8 +281,6 @@ class Jogo:
         
         self.jogadores[0].small_blind(pote)
         self.jogadores[1].big_blind(pote)
-        print(self.jogadores[0].nome, self.jogadores[0].realizou_jogada)
-        print(self.jogadores[1].nome, self.jogadores[1].realizou_jogada)
         self.apostaram.append(self.jogadores[0])
         self.apostaram.append(self.jogadores[1])
 

@@ -24,11 +24,14 @@ class Bot(Jogador):
     def __str__(self):
         return self.nome
     
-    def cobrir(self,aposta_vigente,pote):
-        for i in range(aposta_vigente - self.pilha._get_numero_fichas_apostadas()):
-            if self.pilha._get_numero_fichas == 0:
-                break
-            self.pilha.apostar_ficha(pote)
+    def cobrir(self, aposta_vigente, pote):
+        if aposta_vigente - self.pilha._get_numero_fichas_apostadas() > self.pilha._get_numero_fichas():
+            for i in range(self.pilha._get_numero_fichas()):
+                self.pilha.apostar_ficha(pote)
+        else:
+            for i in range(aposta_vigente - self.pilha._get_numero_fichas_apostadas()):
+                self.pilha.apostar_ficha(pote)
+        
 
     def aumentar(self,aposta_vigente,pote):
         # Método que aumenta a aposta vigente
