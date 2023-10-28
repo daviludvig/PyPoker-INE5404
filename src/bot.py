@@ -34,7 +34,7 @@ class Bot(Jogador):
         
 
     def aumentar(self,aposta_vigente,pote):
-        # Método que aumenta a aposta vigente
+        # Método que aumenta a aposta vigente.
         if len(self.pilha.fichas) == 0 or len(self.pilha.fichas) < (aposta_vigente+1):
             self.decidir_jogada(aposta_vigente, pote)
         else:
