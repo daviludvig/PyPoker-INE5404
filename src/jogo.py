@@ -187,6 +187,7 @@ class Jogo:
                     elif decisao == "d":
                         jogador.realizou_jogada = jogador.desistir()
             else:
+                print(jogador.nome,jogador.realizou_jogada)
                 if not jogador.realizou_jogada:
                     jogador.decidir_jogada(aposta_vigente, pote)
                     jogador.realizou_jogada = True
@@ -281,6 +282,8 @@ class Jogo:
         
         self.jogadores[0].small_blind(pote)
         self.jogadores[1].big_blind(pote)
+        print(self.jogadores[0].nome, self.jogadores[0].realizou_jogada)
+        print(self.jogadores[1].nome, self.jogadores[1].realizou_jogada)
         self.apostaram.append(self.jogadores[0])
         self.apostaram.append(self.jogadores[1])
 
@@ -288,10 +291,16 @@ class Jogo:
             self.decisao_rodada(mesa, pote)
         self.set_cartas_inicias(dealer, baralho)
 
+    def reiniciar(self):
+        for jogador in self.jogadores:
+            if not jogador.desistiu:
+                jogador.realiar_jogada = False
+
     def loop(self, mesa, baralho, dealer, pote):
         contador = 0
         while True:
             self.meio_rodada()
+            self.reiniciar()
             if len(self.desistencias) == len(self.jogadores) - 1:
                 print(f"\n{self.desistencias[0].nome} venceu a partida!")
                 break
