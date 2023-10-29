@@ -14,6 +14,7 @@ class Jogo:
         self.apostaram = []
         self.desistencias = []
 
+        os.system("clear")
         self.iniciar()
         self.selecao_inicial()
         self.gerar_bots()
@@ -39,7 +40,7 @@ class Jogo:
             for letra in arquivo.read():
                 tempo = choice(temporizacao_dinamica)
                 print(letra, end="", flush=True)
-                #sleep(tempo)
+                sleep(tempo)
             print()
         pass
 
@@ -130,7 +131,7 @@ class Jogo:
         participantes = self.jogadores.copy()
         participantes.append(dealer)
 
-        #visual = Visual(participantes, self.nome_do_jogador)
+        visual = Visual(participantes, self.nome_do_jogador)
 
     def meio_rodada(self):
         aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
@@ -342,9 +343,17 @@ class Jogo:
                 self.meio_rodada()
                 self.set_pontuacao_jogadores(mesa)
                 print()
-                for jogador in self.jogadores:
-                    if not jogador.desistiu:
-                        print(f"{jogador.nome}: {jogador.pontos.score}")
+                melhores = []
+                max = 0
+                for i in range(len(self.jogadores)):
+                    if self.jogadores[i].pontos.score > max:
+                        max = self.jogadores[i].pontos.score
+                        melhores.append(self.jogadores[i])
+                if len(melhores) == 1:
+                    print(f"{melhores[0].nome} venceu a partida e levou {pote.get_pote()} fichas")
+                else:
+                    for jogador in melhores:
+                        print(f"{jogador.nome} levou {pote.get_pote()/len(melhores)} fichas")
                 break
             contador += 1
 
