@@ -295,10 +295,12 @@ class Jogo:
 
     def mostrar_todas_cartas(self, mesa):
         for jogador in self.jogadores:
-            print(f"{jogador.nome}: ")
-            for carta in jogador.rodada.get_cartas():
-                print(f"{carta}")
-            print()
+            if not jogador.desistiu:
+                print(f"{jogador.nome}: ")
+                for carta in jogador.rodada.get_cartas():
+                    print(f"{carta}")
+                print()
+        print("FLOP:")
         for carta in mesa.get_flop():
             print(f"{carta}")
 

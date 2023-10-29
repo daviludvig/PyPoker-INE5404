@@ -11,3 +11,4 @@ primeiras_perguntas.txt
 
 *.asta
 *.asta.lock
+.mypy_cache
