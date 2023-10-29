@@ -23,11 +23,4 @@ class Carta():
     def get_naipe(self):
         # Método que retorna o naipe da carta
         return self.naipe
-
-    def get_cor(self):
-        # Método que retorna a cor da carta
-        return self.cor
     
-    def get_peso(self):
-        # Método que retorna a carta
-        return self.valor

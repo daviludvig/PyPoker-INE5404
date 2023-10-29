@@ -4,7 +4,6 @@ class Pontuacao():
     def __init__(self):
         self.score = 0
         self.flag = False
-        self.checagem = False
 
     def set_cartas(self, alvo, mesa):
         self.cartas = alvo.rodada.get_cartas() + mesa.get_flop()
