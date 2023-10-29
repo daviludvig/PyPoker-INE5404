@@ -31,7 +31,6 @@ class Visual:
         centro = (130, 140)
         posicoes = self.auxiliar(raio, len(elementos), deslocamento, centro)
 
-        cadeira = Image.open("/Users/daviludvig/Documents/UFSC/23.2/Python/10-17/Poker/docs/cadeira.png")
         fundo = Image.open("/Users/daviludvig/Documents/UFSC/23.2/Python/10-17/Poker/docs/mesa.jpg")
         imagem.paste(fundo, (35,35))
         for i in range(len(elementos)):

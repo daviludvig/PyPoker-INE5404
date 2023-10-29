@@ -11,10 +11,6 @@ class Jogador():
         self.desistiu = False
         self.realizou_jogada = False
 
-    def limpa_mao(self):
-        # Método que limpa a mão do jogador
-        self.rodada._reset_mao()
-
     def small_blind(self, pote):
         # Método que aposta uma ficha
         self.pilha.apostar_ficha(pote)
