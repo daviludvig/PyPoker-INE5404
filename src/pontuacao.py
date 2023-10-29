@@ -114,6 +114,7 @@ class Pontuacao():
                 if not self.flag:
                     self.score = 4
                     self.flag = True
+                    break
             
     def dois_pares(self):
         # Metodo que verifica se o jogador tem dois pares
@@ -127,6 +128,8 @@ class Pontuacao():
                         if not self.flag:
                             self.score = 3
                             self.flag = True
+                            break
+                break
     
     def um_par(self):
         # Método que verifica se o jogador tem um par
@@ -138,6 +141,7 @@ class Pontuacao():
                 if not self.flag:
                     self.score = 2
                     self.flag = True
+                    break
     
 
     # Nunca vai chegar nesse método

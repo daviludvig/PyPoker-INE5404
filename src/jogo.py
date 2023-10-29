@@ -26,8 +26,6 @@ class Jogo:
         self.organizar_lugares()
         self.primeira_rodada(dealer, pote, baralho, mesa)
         self.set_cartas_mesa(dealer, mesa, baralho)
-        self.set_pontuacao_jogadores(mesa)
-        self.tela_de_relatorio(mesa, pote)
         self.loop(mesa, baralho, dealer, pote)
 
     def iniciar(self):
@@ -40,7 +38,7 @@ class Jogo:
             for letra in arquivo.read():
                 tempo = choice(temporizacao_dinamica)
                 print(letra, end="", flush=True)
-                sleep(tempo)
+                # sleep(tempo)
             print()
         pass
 
@@ -131,7 +129,7 @@ class Jogo:
         participantes = self.jogadores.copy()
         participantes.append(dealer)
 
-        visual = Visual(participantes, self.nome_do_jogador)
+        # visual = Visual(participantes, self.nome_do_jogador)
 
     def meio_rodada(self):
         aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
@@ -154,7 +152,6 @@ class Jogo:
         for jogador in self.jogadores:
             if jogador.desistiu:
                 self.desistencias.append(jogador)
-                # print(f"\n{self.desistencias[0].nome} desistiu da partida.")
 
     def set_pontuacao_jogadores(self, mesa):
         # Método que define a pontuação de cada jogador
@@ -202,43 +199,47 @@ class Jogo:
         for carta in mesa.get_flop():
             print(f"{carta}")
 
-    def mini_relatorio(self, mesa, pote):
-        print(f"\n{'=+'*10}ASSISTENTE{'=+'*10}\n")
-        for i in range(len(self.jogadores) - 1):
-            if (
-                self.jogadores[i + 1].nome == self.nome_do_jogador
-                or self.jogadores[i].nome == self.nome_do_jogador
-            ):
-                continue
-            maior_length = max(
-                len(self.jogadores[i].nome), len(self.jogadores[i + 1].nome)
-            )
+    # def mini_relatorio(self, mesa, pote):
+    #     print(f"\n{'=+'*10}ASSISTENTE{'=+'*10}\n")
+    #     for i in range(len(self.jogadores) - 1):
+    #         if (
+    #             self.jogadores[i + 1].nome == self.nome_do_jogador
+    #             or self.jogadores[i].nome == self.nome_do_jogador
+    #         ):
+    #             continue
+    #         maior_length = max(
+    #             len(self.jogadores[i].nome), len(self.jogadores[i + 1].nome)
+    #         )
 
-        print(f"{((maior_length+3-6)//2)*' '}FICHAS{((maior_length+3-6)//2)*' '}APOSTADAS  RESTANTES")
-        for jogador in self.jogadores:
-            if jogador.nome == self.nome_do_jogador:
-                break
-            else:
-                if not jogador.desistiu:
-                    print(
-                        f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
-                    )
-        self.mostrar_pote(pote)
-        for jogador in self.jogadores:
-            if jogador.nome == self.nome_do_jogador:
-                print(f"\nSUAS FICHAS:")
-                print(
-                    f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
-                )
-        for jogador in self.jogadores:
-            if jogador.nome == self.nome_do_jogador:
-                print(f"\nSUAS CARTAS:")
-                for carta in jogador.rodada.get_cartas():
-                    print(f"{carta}")
-        self.mostrar_flop(mesa)
+    #     print(f"{((maior_length+3-6)//2)*' '}FICHAS{((maior_length+3-6)//2)*' '}APOSTADAS  RESTANTES")
+    #     for jogador in self.jogadores:
+    #         if jogador.nome == self.nome_do_jogador:
+    #             break
+    #         else:
+    #             if not jogador.desistiu:
+    #                 print(
+    #                     f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
+    #                 )
+    #     self.mostrar_pote(pote)
+    #     for jogador in self.jogadores:
+    #         if jogador.nome == self.nome_do_jogador:
+    #             print(f"\nSUAS FICHAS:")
+    #             print(
+    #                 f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
+    #             )
+    #     for jogador in self.jogadores:
+    #         if jogador.nome == self.nome_do_jogador:
+    #             print(f"\nSUAS CARTAS:")
+    #             for carta in jogador.rodada.get_cartas():
+    #                 print(f"{carta}")
+    #     self.mostrar_flop(mesa)
 
     def tela_de_relatorio(self, mesa, pote):
         # Método que imprime o relatório da rodada
+        aposta_vigente = 0
+        for jogador in self.jogadores:
+            if jogador.pilha._get_numero_fichas_apostadas() > aposta_vigente:
+                aposta_vigente = jogador.pilha._get_numero_fichas_apostadas()
 
         for i in range(len(self.jogadores) - 1):
             maior_length = max(
@@ -256,13 +257,13 @@ class Jogo:
             if jogador.desistiu:
                 print(f"{jogador}{abs((maior_length+1-len(jogador.nome)))*' '}|{' '*8}FORA")
         self.mostrar_pote(pote)
+        print(f"Aposta vigente: {aposta_vigente}")
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
                 print(f"\nSUAS CARTAS:")
                 for carta in jogador.rodada.get_cartas():
                     print(f"{carta}")
-        self.mostrar_flop(mesa)
-
+                    
     def primeira_rodada(self, dealer, pote, baralho, mesa):
         # Método que realiza a primeira rodada de apostas
         flag = False
@@ -285,9 +286,13 @@ class Jogo:
         self.apostaram.append(self.jogadores[0])
         self.apostaram.append(self.jogadores[1])
 
-        if not flag:
-            self.decisao_rodada(mesa, pote)
+
         self.set_cartas_inicias(dealer, baralho)
+        self.tela_de_relatorio(mesa, pote)
+        self.meio_rodada()
+        self.decisao_rodada(mesa, pote)
+        os.system("clear")
+        self.decisao_rodada(mesa, pote)
 
     def reiniciar(self):
         for jogador in self.jogadores:
@@ -310,12 +315,6 @@ class Jogo:
             for carta in self.jogadores[-1].rodada.get_cartas():
                 print(f"{carta}")
             print()
-        # for jogador in self.jogadores:
-        #     if not jogador.desistiu:
-        #         print(f"{jogador.nome}: ")
-        #         for carta in jogador.rodada.get_cartas():
-        #             print(f"{carta}")
-        #         print()
         print("FLOP:")
         for carta in mesa.get_flop():
             print(f"{carta}")
@@ -337,6 +336,8 @@ class Jogo:
                 self.decisao_rodada(mesa, pote)
                 self.aumentar_flop(dealer, mesa, baralho)
                 self.tela_de_relatorio(mesa, pote)
+                self.mostrar_flop(mesa)
+
                 self.reiniciar()
             else:
                 self.mostrar_todas_cartas(mesa)
@@ -346,12 +347,18 @@ class Jogo:
                 melhores = []
                 max = 0
                 for i in range(len(self.jogadores)):
-                    if self.jogadores[i].pontos.score > max:
+                    if self.jogadores[i].pontos.score == max:
                         max = self.jogadores[i].pontos.score
                         melhores.append(self.jogadores[i])
+                    elif self.jogadores[i].pontos.score > max:
+                        max = self.jogadores[i].pontos.score
+                        melhores = []
+                        melhores.append(self.jogadores[i])
                 if len(melhores) == 1:
+                    print(f"{'=+'*10}VENCEDOR{'=+'*10}\n")
                     print(f"{melhores[0].nome} venceu a partida e levou {pote.get_pote()} fichas")
                 else:
+                    print(f"{'=+'*10}VENCEDORES{'=+'*10}\n")
                     for jogador in melhores:
                         print(f"{jogador.nome} levou {pote.get_pote()/len(melhores)} fichas")
                 break
