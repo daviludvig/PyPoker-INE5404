@@ -295,11 +295,22 @@ class Jogo:
 
     def mostrar_todas_cartas(self, mesa):
         for jogador in self.jogadores:
-            if not jogador.desistiu:
-                print(f"{jogador.nome}: ")
-                for carta in jogador.rodada.get_cartas():
-                    print(f"{carta}")
-                print()
+            if jogador.desistiu:
+                self.jogadores.remove(jogador)
+        for i in range(len(self.jogadores)-2):
+            print(f"{self.jogadores[i].nome}: {(15-(len(self.jogadores[i].nome))*' ')} {self.jogadores[i+1].nome}: ")
+            for j in range(2):
+                print(f"{self.jogadores[i].rodada.get_cartas()[j]} {(15-(len(self.jogadores[i].rodada.get_cartas()[j]))*' ')} {self.jogadores[i+1].rodada.get_cartas()[j]}")
+        if len(self.jogadores) % 2 != 0:
+            print(f"{self.jogadores[-1].nome}: ")
+            for carta in self.jogadores[-1].rodada.get_cartas():
+                print(f"{carta}")
+        # for jogador in self.jogadores:
+        #     if not jogador.desistiu:
+        #         print(f"{jogador.nome}: ")
+        #         for carta in jogador.rodada.get_cartas():
+        #             print(f"{carta}")
+        #         print()
         print("FLOP:")
         for carta in mesa.get_flop():
             print(f"{carta}")
@@ -311,7 +322,7 @@ class Jogo:
             if len(self.desistencias) == len(self.jogadores) - 1:
                 for jogador in self.jogadores:
                     if not jogador.desistiu:
-                        print(f"\n{jogador.nome} venceu a partida!")
+                        print(f"\n{jogador.nome} venceu a partida sem mostrar as cartas!")
                         break
                 break
             if contador < 2:
