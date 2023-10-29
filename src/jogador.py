@@ -22,11 +22,6 @@ class Jogador():
             self.pilha.apostar_ficha(pote)
         self.realizou_jogada = True  
 
-    def decidir_jogada(self, mesa):
-        # Método que decide a jogada do jogador
-        # Método sobrecarregado em Bot
-        pass
-
     def __str__(self):
         return self.nome
     
