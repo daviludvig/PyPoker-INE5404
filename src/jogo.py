@@ -39,7 +39,7 @@ class Jogo:
             for letra in arquivo.read():
                 tempo = choice(temporizacao_dinamica)
                 print(letra, end="", flush=True)
-                sleep(tempo)
+                #sleep(tempo)
             print()
         pass
 
@@ -130,7 +130,7 @@ class Jogo:
         participantes = self.jogadores.copy()
         participantes.append(dealer)
 
-        visual = Visual(participantes, self.nome_do_jogador)
+        #visual = Visual(participantes, self.nome_do_jogador)
 
     def meio_rodada(self):
         aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
@@ -294,17 +294,21 @@ class Jogo:
                 jogador.realizou_jogada = False
 
     def mostrar_todas_cartas(self, mesa):
+        print(f"{'=+'*10}CARTAS{'=+'*10}\n")
         for jogador in self.jogadores:
             if jogador.desistiu:
                 self.jogadores.remove(jogador)
-        for i in range(len(self.jogadores)-2):
-            print(f"{self.jogadores[i].nome}: {(15-(len(self.jogadores[i].nome))*' ')} {self.jogadores[i+1].nome}: ")
+        for i in range(0, len(self.jogadores)-2, 2):
+            tamanho = len(self.jogadores[i].nome)
+            print(f"{self.jogadores[i].nome}: {(25 - tamanho)*' '} {self.jogadores[i+1].nome}: ")
             for j in range(2):
-                print(f"{self.jogadores[i].rodada.get_cartas()[j]} {(15-(len(self.jogadores[i].rodada.get_cartas()[j]))*' ')} {self.jogadores[i+1].rodada.get_cartas()[j]}")
+                print(f"{self.jogadores[i].rodada.get_cartas()[j]} {(26-len(str(self.jogadores[i].rodada.get_cartas()[j])))*' '} {self.jogadores[i+1].rodada.get_cartas()[j]}")
+            print()
         if len(self.jogadores) % 2 != 0:
             print(f"{self.jogadores[-1].nome}: ")
             for carta in self.jogadores[-1].rodada.get_cartas():
                 print(f"{carta}")
+            print()
         # for jogador in self.jogadores:
         #     if not jogador.desistiu:
         #         print(f"{jogador.nome}: ")
@@ -335,6 +339,12 @@ class Jogo:
                 self.reiniciar()
             else:
                 self.mostrar_todas_cartas(mesa)
+                self.meio_rodada()
+                self.set_pontuacao_jogadores(mesa)
+                print()
+                for jogador in self.jogadores:
+                    if not jogador.desistiu:
+                        print(f"{jogador.nome}: {jogador.pontos.score}")
                 break
             contador += 1
 

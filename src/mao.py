@@ -13,3 +13,4 @@ class Mao():
     def _reset_mao(self):
         # Método que reseta a mão do jogador
         self.cartas = []
+        
