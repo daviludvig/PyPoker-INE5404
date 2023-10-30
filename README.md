@@ -1,11 +1,7 @@
 # Todo
-- Processo de fold, check ou aumentar
-- Começar a pensar nos fatores de decisao pras ações dos bots
-- Visual e jogo associacao
-- Composicao com as classes que formam atributos 
-- Estabelecer a generalidade da rodada de apostas
-- Organizar melhor a ordem dos acontecimentos, primeiro distribui as cartas para depois fazer as apostas da primeira rodada.
-
+- Checar o que está acontecendo que no segundo momento de apostar está aparecendo o fold quando nao devia e tambem dois relatorios sem limpar a tela
+- Rever o calculo dos pontos
+- De resto tudo parece correto
 
 # Caminho
 - Inicio
