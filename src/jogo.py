@@ -292,6 +292,7 @@ class Jogo:
         self.meio_rodada()
         self.decisao_rodada(mesa, pote)
         os.system("clear")
+        print("a")
         self.decisao_rodada(mesa, pote)
 
     def reiniciar(self):
@@ -334,9 +335,10 @@ class Jogo:
                     if jogador.desistiu:
                         continue
                 self.decisao_rodada(mesa, pote)
-                self.aumentar_flop(dealer, mesa, baralho)
+                self.mostrar_flop(mesa)
                 self.tela_de_relatorio(mesa, pote)
                 self.mostrar_flop(mesa)
+                self.aumentar_flop(dealer, mesa, baralho)
 
                 self.reiniciar()
             else:
