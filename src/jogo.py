@@ -53,7 +53,7 @@ class Jogo:
             input(">> Digite o número de jogadores (2 - 10): ")
         )
 
-        while (self.quantidade_jogadores < 2) or (self.quantidade_jogadores > 50):
+        while (self.quantidade_jogadores < 2) or (self.quantidade_jogadores > 10):
             print("\nNúmero de jogadores inválido. Tente novamente.")
             self.quantidade_jogadores = int(
                 input(">> Digite o número de jogadores (2 - 10): ")

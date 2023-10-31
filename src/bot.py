@@ -41,7 +41,11 @@ class Bot(Jogador):
             self.cobrir(aposta_vigente, pote)
             diferenca = self.pilha._get_numero_fichas() - (aposta_vigente - self.pilha._get_numero_fichas_apostadas())
             diferenca = diferenca//2
-            for i in range(randint(2, diferenca)):
+            if diferenca >= 2:
+                num_it = randint(2, diferenca)
+            else:
+                num_it = 2
+            for i in range(num_it):
                 if self.pilha._get_numero_fichas == 0:
                     break
                 self.pilha.apostar_ficha(pote)
