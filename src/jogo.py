@@ -53,7 +53,7 @@ class Jogo:
             input(">> Digite o número de jogadores (2 - 10): ")
         )
 
-        while (self.quantidade_jogadores < 2) or (self.quantidade_jogadores > 10):
+        while (self.quantidade_jogadores < 2) or (self.quantidade_jogadores > 50):
             print("\nNúmero de jogadores inválido. Tente novamente.")
             self.quantidade_jogadores = int(
                 input(">> Digite o número de jogadores (2 - 10): ")
@@ -294,24 +294,23 @@ class Jogo:
                 melhores = []
                 max = 0
                 for i in range(len(self.jogadores)):
-                    if self.jogadores[i].pontos.score == max:
-                        max = self.jogadores[i].pontos.score
-                        melhores.append(self.jogadores[i])
-                    elif self.jogadores[i].pontos.score > max:
-                        max = self.jogadores[i].pontos.score
-                        melhores = []
-                        melhores.append(self.jogadores[i])
+                    if not self.jogadores[i].desistiu:
+                        if self.jogadores[i].pontos.score == max:
+                            max = self.jogadores[i].pontos.score
+                            melhores.append(self.jogadores[i])
+                        elif self.jogadores[i].pontos.score > max:
+                            max = self.jogadores[i].pontos.score
+                            melhores = []
+                            melhores.append(self.jogadores[i])
                 if len(melhores) == 1:
                     print(f"{'=+'*10}VENCEDOR{'=+'*10}\n")
-                    print(f"{melhores[0].nome} venceu a partida e levou {pote.get_pote()} fichas")
+                    print(f"{melhores[0].nome} venceu a partida e levou {pote.get_pote()} fichas ({melhores[0].pontos.score})")
                 else:
                     print(f"{'=+'*10}VENCEDORES{'=+'*10}\n")
                     for jogador in melhores:
-                        print(f"{jogador.nome} levou {pote.get_pote()/len(melhores)} fichas")
+                        print(f"{jogador.nome} levou {pote.get_pote()/len(melhores)} fichas {jogador.pontos.score}")
                 break
             contador += 1
-
-
 
     def reiniciar(self):
         for jogador in self.jogadores:

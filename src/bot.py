@@ -11,10 +11,10 @@ class Bot(Jogador):
 
         aleatorio = randint(0,9)
         # 1 - Cobrir
-        if (aleatorio >= 5):
+        if (aleatorio >= 4):
             self.cobrir(aposta_vigente, pote)
         # 2 - Aumentar
-        elif (4 >= aleatorio) and (aleatorio >= 2):
+        elif (3 >= aleatorio) and (aleatorio >= 1):
             self.aumentar(aposta_vigente, pote)
         # 3 - Desistir
         else:

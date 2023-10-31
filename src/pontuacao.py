@@ -12,11 +12,11 @@ class Pontuacao():
         # Metodo que seta o score do jogador
         self.set_cartas(alvo, mesa)
         self.royal_flush()
-        self.straigth_flush()
+        self.straight_flush()
         self.quadra()
         self.full_house()
         self.flush()
-        self.straigth()
+        self.straight()
         self.trinca()
         self.dois_pares()
         self.um_par()
@@ -33,24 +33,32 @@ class Pontuacao():
         naipes = set([carta.get_naipe() for carta in self.cartas])
         if len(naipes) < 5:
             return
+
         valores = set([carta.get_valor() for carta in self.cartas])
-        if "Ás" in valores and "Rei" in valores and "Dama" in valores and "Valete" in valores and "10" in valores:
+        valores_inteiros = set([10, 11, 12, 13, 14])  # Valores inteiros correspondentes a "10", "Valete", "Dama", "Rei" e "Ás"
+        
+        if valores_inteiros.issubset(valores):
             self.score = 10
             self.flag = True
 
+
     
-    def straigth_flush(self):
-        # Método que verifica se o jogador tem um straigth flush
+    def straight_flush(self):
+        # Método que verifica se o jogador tem um straight flush
         naipes = set([carta.get_naipe() for carta in self.cartas])
         if len(naipes) < 5:
             return False
-        valores = set([carta.get_valor() for carta in self.cartas])
-        valores = sorted(valores, key=lambda x: ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Valete", "Dama", "Rei", "Ás"].index(x))
+        
+        valores = [carta.get_valor() for carta in self.cartas]
+        valores_inteiros = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]  # Valores inteiros correspondentes às cartas
+        valores = sorted(valores, key=lambda x: valores_inteiros.index(int(x)))
+        
         for i in range(len(valores) - 4):
-            if valores[i:i+5] == valores[i] + 5:
+            if set(valores_inteiros[valores_inteiros.index(int(valores[i])):valores_inteiros.index(int(valores[i]))+5]) == set(valores_inteiros):
                 if not self.flag:
                     self.score = 9
                     self.flag = True
+
         
     def quadra(self):
         # Método que verifica se o jogador tem uma quadra
@@ -61,11 +69,15 @@ class Pontuacao():
     def full_house(self):
         # Método que verifica se o jogador tem um full house
         valores = [carta.get_valor() for carta in self.cartas]
-        if self.verificar_combinacao(valores, 3):
-            if self.verificar_combinacao(valores, 2):
-                if not self.flag:
-                    self.score = 7
-                    self.flag = True
+        if not self.flag:
+            for valor in set(valores):
+                if valores.count(valor) == 3:
+                    for outro_valor in set(valores):
+                        if outro_valor != valor and valores.count(outro_valor) >= 2:
+                            if not self.flag:
+                                self.score = 7
+                                self.flag = True
+                                break
             
     def flush(self):
         # Método que verifica se o jogador tem um flush
@@ -74,16 +86,22 @@ class Pontuacao():
             self.flag = self.verificar_combinacao(naipes, 5)
             self.score = 6
             
-    def straigth(self):
-        # Método que verifica se o jogador tem um straigth
-        valores = set([carta.get_valor() for carta in self.cartas])
-        valores = sorted(valores, key=lambda x: ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Valete", "Dama", "Rei", "Ás"].index(x))
-        for i in range(len(valores) - 4):
-            if valores[i:i+5] == valores[i] + 5:
-                if not self.flag:
-                    self.score = 5
-                    self.flag = True
+    def straight(self):
+        # Método que verifica se o jogador tem um straight
+        valores = [str(carta.get_valor()) for carta in self.cartas]
+        valores = sorted(valores, key=lambda x: ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1"].index(x))
+        
+        consecutive_count = 0
+        for i in range(len(valores) - 1):
+            if int(valores[i]) + 1 == int(valores[i+1]):
+                consecutive_count += 1
+            else:
+                consecutive_count = 0
 
+        if consecutive_count >= 4:  # Se tiver pelo menos 5 valores consecutivos
+            if not self.flag:
+                self.score = 5
+                self.flag = True
 
     def trinca(self):
         # Método que verifica se o jogador tem uma trinca
@@ -95,10 +113,13 @@ class Pontuacao():
         # Metodo que verifica se o jogador tem dois pares
         if not self.flag:
             valores = [carta.get_valor() for carta in self.cartas]
-            if self.verificar_combinacao(valores, 2):
-                if self.verificar_combinacao(valores, 2):
-                    self.score = 3
-                    self.flag = True
+            pares = []
+            for valor in set(valores):
+                if valores.count(valor) >= 2:
+                    pares.append(valor)
+            if len(pares) >= 2:
+                self.score = 3
+                self.flag = True
     
     def um_par(self):
         # Método que verifica se o jogador tem um par
