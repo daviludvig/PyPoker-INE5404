@@ -1,10 +1,1 @@
-Beatriz - Dois pares
-Valete de Copas (Vermelho)
-Valete de Espadas (Preto)
-
-FLOP:
-Ás de Ouro (Vermelho)
-Ás de Paus (Preto)
-Dama de Copas (Vermelho)
-5 de Copas (Vermelho)
-2 de Espadas (Preto)
+(Isso será sobrescrito)
