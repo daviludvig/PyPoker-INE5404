@@ -162,6 +162,7 @@ class Jogo:
         pass
 
     def decisao_rodada(self, mesa, pote):
+        print("decisao")
         aposta_vigente = 0
         for jogador in self.jogadores:
             if jogador.pilha._get_numero_fichas_apostadas() != 0:
@@ -286,14 +287,24 @@ class Jogo:
         self.apostaram.append(self.jogadores[0])
         self.apostaram.append(self.jogadores[1])
 
-
+        print("1")
         self.set_cartas_inicias(dealer, baralho)
         self.tela_de_relatorio(mesa, pote)
         self.meio_rodada()
+
+        print("2")
         self.decisao_rodada(mesa, pote)
         os.system("clear")
-        print("a")
+        print("3")
+        self.tela_de_relatorio(mesa, pote)
+        self.meio_rodada()
+        print("4")
         self.decisao_rodada(mesa, pote)
+        os.system("clear")
+        print("5")
+        self.tela_de_relatorio(mesa, pote)
+        self.meio_rodada()
+
 
     def reiniciar(self):
         for jogador in self.jogadores:
@@ -337,7 +348,6 @@ class Jogo:
                 self.decisao_rodada(mesa, pote)
                 self.mostrar_flop(mesa)
                 self.tela_de_relatorio(mesa, pote)
-                self.mostrar_flop(mesa)
                 self.aumentar_flop(dealer, mesa, baralho)
 
                 self.reiniciar()
