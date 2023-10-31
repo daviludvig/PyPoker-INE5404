@@ -1,7 +1,8 @@
-# Todo
-- Checar o que está acontecendo que no segundo momento de apostar está aparecendo o fold quando nao devia e tambem dois relatorios sem limpar a tela
-- Rever o calculo dos pontos
-- De resto tudo parece correto
+# Descrição
+Este sistema foi desenvolvido e construído de acordo com as especificações da quarta atividade avaliativa em POO2, ministrada pelo professor Alex Sandro.
+
+# Rodar o sistema
+Para executar o sistema, execute os seguintes comandos:
 
 # Caminho
 - Inicio
