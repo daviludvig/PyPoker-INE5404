@@ -32,3 +32,4 @@ class Pilha:
         # Método que retorna a diferença entre as fichas do jogador
         diferenca = len(self.fichas) - len(self.fichas_apostadas)
         return diferenca
+    
