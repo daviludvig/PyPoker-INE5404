@@ -139,13 +139,6 @@ class Jogo:
         # Método que imprime o pote
         print(f"\nPOTE: {pote.get_pote()} = R${pote.get_pote()*25}.00")
 
-    def check(self, decisao, apostaram):
-        # Método que realiza as apostas de uma rodada
-        for jogador in self.jogadores:
-            if jogador not in apostaram and decisao:
-                jogador.cobrir()
-                apostaram.append(jogador)
-
     def set_desistencias(self):
         # Método que remove um jogador da partida
         self.desistencias = []
@@ -157,9 +150,6 @@ class Jogo:
         # Método que define a pontuação de cada jogador
         for jogador in self.jogadores:
             jogador.pontos.set_pontuacao(jogador, mesa)
-
-    def tela_de_decisao(self):
-        pass
 
     def decisao_rodada(self, mesa, pote, mostrarFlop = False):
         aposta_vigente = 0
