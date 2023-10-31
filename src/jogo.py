@@ -38,7 +38,7 @@ class Jogo:
             for letra in arquivo.read():
                 tempo = choice(temporizacao_dinamica)
                 print(letra, end="", flush=True)
-                # sleep(tempo)
+                sleep(tempo)
             print()
         pass
 
@@ -129,7 +129,7 @@ class Jogo:
         participantes = self.jogadores.copy()
         participantes.append(dealer)
 
-        # visual = Visual(participantes, self.nome_do_jogador)
+        visual = Visual(participantes, self.nome_do_jogador)
 
     def meio_rodada(self):
         aux = input("\n>> Pressione ENTER quando estiver pronto para começar...")
@@ -230,7 +230,21 @@ class Jogo:
                     print(f"{carta}")
         if mostrarFlop:
             self.mostrar_flop(mesa)
-                    
+
+    def desempate(self, melhores, mesa):
+        # Metodo que define vencedor(es) por maior carta
+        melhores_melhor = []
+        max = 0
+        for jogador in melhores:
+            cartas_alvo = jogador.rodada.get_cartas() + mesa.get_flop()
+            for carta in cartas_alvo:
+                if carta.get_valor() > max:
+                    max = carta.get_valor()
+                    melhores_melhor = [jogador]
+                elif carta.get_valor() == max and jogador not in melhores_melhor:
+                    melhores_melhor.append(jogador)
+        return melhores_melhor
+
     def primeira_rodada(self, dealer, pote, baralho, mesa):
         # Método que realiza a primeira rodada de apostas
         flag = False
@@ -283,15 +297,17 @@ class Jogo:
                 os.system("clear")
                 self.tela_de_relatorio(mesa, pote, mostrarFlop=True)
                 self.meio_rodada()
-                self.aumentar_flop(dealer, mesa, baralho)
+                if contador != 3:   
+                    self.aumentar_flop(dealer, mesa, baralho)
 
                 self.reiniciar()
             else:
-                self.mostrar_todas_cartas(mesa)
+                self.mostrar_todas_cartas(mesa, pote)
                 self.meio_rodada()
                 self.set_pontuacao_jogadores(mesa)
                 print()
                 melhores = []
+                melhores2 = []
                 max = 0
                 for i in range(len(self.jogadores)):
                     if not self.jogadores[i].desistiu:
@@ -304,11 +320,17 @@ class Jogo:
                             melhores.append(self.jogadores[i])
                 if len(melhores) == 1:
                     print(f"{'=+'*10}VENCEDOR{'=+'*10}\n")
-                    print(f"{melhores[0].nome} venceu a partida e levou {pote.get_pote()} fichas ({melhores[0].pontos.score})")
+                    print(f"{melhores[0].nome} venceu a partida e levou {pote.get_pote()} fichas.")
                 else:
-                    print(f"{'=+'*10}VENCEDORES{'=+'*10}\n")
-                    for jogador in melhores:
-                        print(f"{jogador.nome} levou {pote.get_pote()/len(melhores)} fichas {jogador.pontos.score}")
+                    melhores2 = self.desempate(melhores, mesa)
+                    if len(melhores2) == 1:
+                        print(f"{'=+'*10}VENCEDOR{'=+'*10}\n")
+                        print(f"{melhores2[0].nome} venceu a partida e levou {pote.get_pote()} fichas.")
+                    else:
+                        print(f"{'=+'*10}VENCEDORES{'=+'*10}\n")
+                        for jogador in melhores2:
+                            print(f"{jogador.nome} levou {pote.get_pote()//len(melhores2)} fichas.")
+                self.registrar(melhores, mesa, melhores2)
                 break
             contador += 1
 
@@ -317,24 +339,49 @@ class Jogo:
             if not jogador.desistiu:
                 jogador.realizou_jogada = False
 
-    def mostrar_todas_cartas(self, mesa):
+    def mostrar_todas_cartas(self, mesa, pote):
         print(f"{'=+'*10}CARTAS{'=+'*10}\n")
-        for jogador in self.jogadores:
-            if jogador.desistiu:
-                self.jogadores.remove(jogador)
-        for i in range(0, len(self.jogadores)-2, 2):
-            tamanho = len(self.jogadores[i].nome)
-            print(f"{self.jogadores[i].nome}: {(25 - tamanho)*' '} {self.jogadores[i+1].nome}: ")
-            for j in range(2):
-                print(f"{self.jogadores[i].rodada.get_cartas()[j]} {(26-len(str(self.jogadores[i].rodada.get_cartas()[j])))*' '} {self.jogadores[i+1].rodada.get_cartas()[j]}")
-            print()
-        if len(self.jogadores) % 2 != 0:
-            print(f"{self.jogadores[-1].nome}: ")
-            for carta in self.jogadores[-1].rodada.get_cartas():
+        self.mostrar_pote(pote)
+        print()
+        jogadores_ativos = [jogador for jogador in self.jogadores if not jogador.desistiu]
+
+
+        if len(jogadores_ativos) % 2 != 0:
+            aux = len(jogadores_ativos) -1
+        else:
+            aux = len(jogadores_ativos)
+
+        for i in range(0, aux, 2):
+            if not jogadores_ativos[i].desistiu and not jogadores_ativos[i+1].desistiu:
+                tamanho = len(jogadores_ativos[i].nome)
+                print(f"{jogadores_ativos[i].nome}: {(25 - tamanho)*' '} {jogadores_ativos[i+1].nome}: ")
+                for j in range(2):
+                    print(f"{jogadores_ativos[i].rodada.get_cartas()[j]} {(26-len(str(jogadores_ativos[i].rodada.get_cartas()[j])))*' '} {jogadores_ativos[i+1].rodada.get_cartas()[j]}")
+                print()
+        if len(jogadores_ativos) % 2 != 0 and not jogadores_ativos[-1].desistiu:
+            print(f"{jogadores_ativos[-1].nome}: ")
+            for carta in jogadores_ativos[-1].rodada.get_cartas():
                 print(f"{carta}")
             print()
         print("FLOP:")
         for carta in mesa.get_flop():
             print(f"{carta}")
 
-    
+    def registrar(self, vencedores, mesa, melhores2):
+        # Método que registra os vencedores da partida
+        melhores_maos = ["Par", "Dois pares", "Trinca", "Straight", "Flush", "Full house", "Quadra", "Straight flush", "Royal flush"]
+        
+        with open("/Users/daviludvig/Documents/UFSC/23.2/Python/10-17/Poker/docs/vencedores.txt", "w") as arquivo:
+            for vencedor in vencedores:
+                arquivo.write(f"{vencedor.nome} - {melhores_maos[vencedor.pontos.score - 2]}")
+                if vencedor in melhores2:
+                    arquivo.write(" *\n")
+                else:
+                    arquivo.write("\n")
+                for carta in vencedor.rodada.get_cartas():
+                    arquivo.write(f"{carta}\n")
+                arquivo.write("\n")
+            arquivo.write(f"FLOP:\n")            
+            for carta in mesa.get_flop():
+                arquivo.write(f"{carta}\n")
+            arquivo.close()

@@ -126,7 +126,7 @@ class Pontuacao():
         if not self.flag:
             self.flag = self.verificar_combinacao([carta.get_valor() for carta in self.cartas], 2)
             self.score = 2
-    
+
 
     # Nunca vai chegar nesse método
     # def maior_carta(self):
