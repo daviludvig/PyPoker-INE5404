@@ -161,8 +161,7 @@ class Jogo:
     def tela_de_decisao(self):
         pass
 
-    def decisao_rodada(self, mesa, pote):
-        print("decisao")
+    def decisao_rodada(self, mesa, pote, mostrarFlop = False):
         aposta_vigente = 0
         for jogador in self.jogadores:
             if jogador.pilha._get_numero_fichas_apostadas() != 0:
@@ -170,7 +169,7 @@ class Jogo:
 
         for jogador in self.jogadores:
             if jogador.nome == self.nome_do_jogador:
-                self.tela_de_relatorio(mesa, pote)
+                self.tela_de_relatorio(mesa, pote, mostrarFlop = mostrarFlop)
                 while not jogador.realizou_jogada:
                     decisao = input(
                         "\n>> Digite 'c' para cobrir, 'a' para aumentar ou 'd' para desistir: "
@@ -200,42 +199,7 @@ class Jogo:
         for carta in mesa.get_flop():
             print(f"{carta}")
 
-    # def mini_relatorio(self, mesa, pote):
-    #     print(f"\n{'=+'*10}ASSISTENTE{'=+'*10}\n")
-    #     for i in range(len(self.jogadores) - 1):
-    #         if (
-    #             self.jogadores[i + 1].nome == self.nome_do_jogador
-    #             or self.jogadores[i].nome == self.nome_do_jogador
-    #         ):
-    #             continue
-    #         maior_length = max(
-    #             len(self.jogadores[i].nome), len(self.jogadores[i + 1].nome)
-    #         )
-
-    #     print(f"{((maior_length+3-6)//2)*' '}FICHAS{((maior_length+3-6)//2)*' '}APOSTADAS  RESTANTES")
-    #     for jogador in self.jogadores:
-    #         if jogador.nome == self.nome_do_jogador:
-    #             break
-    #         else:
-    #             if not jogador.desistiu:
-    #                 print(
-    #                     f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
-    #                 )
-    #     self.mostrar_pote(pote)
-    #     for jogador in self.jogadores:
-    #         if jogador.nome == self.nome_do_jogador:
-    #             print(f"\nSUAS FICHAS:")
-    #             print(
-    #                 f"{jogador}{(maior_length+1-len(jogador.nome))*' '}|{jogador.pilha._get_numero_fichas_apostadas():^9}  {jogador.pilha._get_numero_fichas():^9}"
-    #             )
-    #     for jogador in self.jogadores:
-    #         if jogador.nome == self.nome_do_jogador:
-    #             print(f"\nSUAS CARTAS:")
-    #             for carta in jogador.rodada.get_cartas():
-    #                 print(f"{carta}")
-    #     self.mostrar_flop(mesa)
-
-    def tela_de_relatorio(self, mesa, pote):
+    def tela_de_relatorio(self, mesa, pote, mostrarFlop = False):
         # Método que imprime o relatório da rodada
         aposta_vigente = 0
         for jogador in self.jogadores:
@@ -264,6 +228,8 @@ class Jogo:
                 print(f"\nSUAS CARTAS:")
                 for carta in jogador.rodada.get_cartas():
                     print(f"{carta}")
+        if mostrarFlop:
+            self.mostrar_flop(mesa)
                     
     def primeira_rodada(self, dealer, pote, baralho, mesa):
         # Método que realiza a primeira rodada de apostas
@@ -287,67 +253,36 @@ class Jogo:
         self.apostaram.append(self.jogadores[0])
         self.apostaram.append(self.jogadores[1])
 
-        print("1")
         self.set_cartas_inicias(dealer, baralho)
         self.tela_de_relatorio(mesa, pote)
-        self.meio_rodada()
-
-        print("2")
-        self.decisao_rodada(mesa, pote)
-        os.system("clear")
-        print("3")
-        self.tela_de_relatorio(mesa, pote)
-        self.meio_rodada()
-        print("4")
-        self.decisao_rodada(mesa, pote)
-        os.system("clear")
-        print("5")
-        self.tela_de_relatorio(mesa, pote)
-        self.meio_rodada()
-
-
-    def reiniciar(self):
-        for jogador in self.jogadores:
-            if not jogador.desistiu:
-                jogador.realizou_jogada = False
-
-    def mostrar_todas_cartas(self, mesa):
-        print(f"{'=+'*10}CARTAS{'=+'*10}\n")
-        for jogador in self.jogadores:
-            if jogador.desistiu:
-                self.jogadores.remove(jogador)
-        for i in range(0, len(self.jogadores)-2, 2):
-            tamanho = len(self.jogadores[i].nome)
-            print(f"{self.jogadores[i].nome}: {(25 - tamanho)*' '} {self.jogadores[i+1].nome}: ")
-            for j in range(2):
-                print(f"{self.jogadores[i].rodada.get_cartas()[j]} {(26-len(str(self.jogadores[i].rodada.get_cartas()[j])))*' '} {self.jogadores[i+1].rodada.get_cartas()[j]}")
-            print()
-        if len(self.jogadores) % 2 != 0:
-            print(f"{self.jogadores[-1].nome}: ")
-            for carta in self.jogadores[-1].rodada.get_cartas():
-                print(f"{carta}")
-            print()
-        print("FLOP:")
-        for carta in mesa.get_flop():
-            print(f"{carta}")
 
     def loop(self, mesa, baralho, dealer, pote):
         contador = 0
         while True:
-            self.meio_rodada()
             if len(self.desistencias) == len(self.jogadores) - 1:
                 for jogador in self.jogadores:
                     if not jogador.desistiu:
                         print(f"\n{jogador.nome} venceu a partida sem mostrar as cartas!")
                         break
                 break
-            if contador < 2:
-                for jogador in self.jogadores:
-                    if jogador.desistiu:
-                        continue
+            if contador == 0:
+                self.meio_rodada()
                 self.decisao_rodada(mesa, pote)
-                self.mostrar_flop(mesa)
+                os.system("clear")
                 self.tela_de_relatorio(mesa, pote)
+                self.meio_rodada()
+                self.reiniciar()
+                self.decisao_rodada(mesa, pote)
+                os.system("clear")
+                self.tela_de_relatorio(mesa, pote)
+                self.meio_rodada()
+                self.reiniciar()
+
+            elif contador <= 3:
+                self.decisao_rodada(mesa, pote, mostrarFlop = True)
+                os.system("clear")
+                self.tela_de_relatorio(mesa, pote, mostrarFlop=True)
+                self.meio_rodada()
                 self.aumentar_flop(dealer, mesa, baralho)
 
                 self.reiniciar()
@@ -376,3 +311,31 @@ class Jogo:
                 break
             contador += 1
 
+
+
+    def reiniciar(self):
+        for jogador in self.jogadores:
+            if not jogador.desistiu:
+                jogador.realizou_jogada = False
+
+    def mostrar_todas_cartas(self, mesa):
+        print(f"{'=+'*10}CARTAS{'=+'*10}\n")
+        for jogador in self.jogadores:
+            if jogador.desistiu:
+                self.jogadores.remove(jogador)
+        for i in range(0, len(self.jogadores)-2, 2):
+            tamanho = len(self.jogadores[i].nome)
+            print(f"{self.jogadores[i].nome}: {(25 - tamanho)*' '} {self.jogadores[i+1].nome}: ")
+            for j in range(2):
+                print(f"{self.jogadores[i].rodada.get_cartas()[j]} {(26-len(str(self.jogadores[i].rodada.get_cartas()[j])))*' '} {self.jogadores[i+1].rodada.get_cartas()[j]}")
+            print()
+        if len(self.jogadores) % 2 != 0:
+            print(f"{self.jogadores[-1].nome}: ")
+            for carta in self.jogadores[-1].rodada.get_cartas():
+                print(f"{carta}")
+            print()
+        print("FLOP:")
+        for carta in mesa.get_flop():
+            print(f"{carta}")
+
+    
