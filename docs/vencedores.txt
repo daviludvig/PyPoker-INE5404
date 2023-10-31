@@ -1,14 +1,10 @@
-Marcos - Dois pares *
-6 de Espadas (Preto)
-5 de Ouro (Vermelho)
-
-Pedro - Dois pares *
-9 de Ouro (Vermelho)
-6 de Ouro (Vermelho)
+Beatriz - Dois pares
+Valete de Copas (Vermelho)
+Valete de Espadas (Preto)
 
 FLOP:
 Ás de Ouro (Vermelho)
-Dama de Espadas (Preto)
 Ás de Paus (Preto)
-6 de Paus (Preto)
-5 de Espadas (Preto)
+Dama de Copas (Vermelho)
+5 de Copas (Vermelho)
+2 de Espadas (Preto)
