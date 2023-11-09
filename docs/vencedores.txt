@@ -1,1 +1,14 @@
-(Isso será sobrescrito)
+* Maicon - Dois pares *
+6 de Ouro (Vermelho)
+7 de Ouro (Vermelho)
+
+Natália - Dois pares *
+2 de Ouro (Vermelho)
+Rei de Espadas (Preto)
+
+FLOP:
+7 de Copas (Vermelho)
+5 de Paus (Preto)
+Dama de Ouro (Vermelho)
+Rei de Ouro (Vermelho)
+7 de Espadas (Preto)

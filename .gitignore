@@ -13,3 +13,5 @@ primeiras_perguntas.txt
 *.asta.lock
 .mypy_cache
 .DS_Store
+
+test.py
