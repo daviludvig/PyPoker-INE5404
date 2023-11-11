@@ -4,7 +4,6 @@ from random import randint
 class Bot(Jogador):
     def __init__(self, nome):
         super().__init__(nome)
-    
     def decidir_jogada(self,aposta_vigente, pote):
         # Método que decide a jogada do bot
         # Sobrecarga de método com a classe Jogador
@@ -23,7 +22,6 @@ class Bot(Jogador):
 
     def __str__(self):
         return self.nome
-    
     def cobrir(self, aposta_vigente, pote):
         if aposta_vigente - self.pilha._get_numero_fichas_apostadas() > self.pilha._get_numero_fichas():
             for i in range(self.pilha._get_numero_fichas()):
@@ -31,7 +29,6 @@ class Bot(Jogador):
         else:
             for i in range(aposta_vigente - self.pilha._get_numero_fichas_apostadas()):
                 self.pilha.apostar_ficha(pote)
-        
 
     def aumentar(self,aposta_vigente,pote):
         # Método que aumenta a aposta vigente.
@@ -46,10 +43,9 @@ class Bot(Jogador):
             else:
                 num_it = 2
             for i in range(num_it):
-                if self.pilha._get_numero_fichas == 0:
+                if (self.pilha._get_numero_fichas) == 0:
                     break
                 self.pilha.apostar_ficha(pote)
 
     def desistir(self):
         self.desistiu = True
-        pass
